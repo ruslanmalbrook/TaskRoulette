@@ -1,6 +1,8 @@
 package tech.taskroulette.app.domain.repository
 
 import kotlinx.coroutines.flow.Flow
+import tech.taskroulette.app.domain.model.ConfettiStyle
+import tech.taskroulette.app.domain.model.SpinSoundTheme
 import tech.taskroulette.app.domain.model.Settings
 
 interface SettingsRepository {
@@ -9,6 +11,10 @@ interface SettingsRepository {
     suspend fun setSoundEnabled(isEnabled: Boolean): Unit
 
     suspend fun setHapticsEnabled(isEnabled: Boolean): Unit
+
+    suspend fun setSpinSoundTheme(theme: SpinSoundTheme): Unit
+
+    suspend fun setConfettiStyle(style: ConfettiStyle): Unit
 }
 
 

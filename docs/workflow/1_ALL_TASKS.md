@@ -95,20 +95,20 @@
 
 ### 2. UX polish tasks (Delight & perceived quality)
 
-- [ ] **Multiple spin sound themes (2–3)**
+- [x] **Multiple spin sound themes (2–3)** ✅ Done _(branch=`251224_feature_uxpolish_v1`)_
   - Критерии приёмки: тема меняется без крашей, корректно применена на спине
 
-- [ ] **Confetti style variations (2–3)**
+- [x] **Confetti style variations (2–3)** ✅ Done
   - Критерии приёмки: стили отличаются визуально и не просаживают fps
 
-- [ ] **Subtle UI animations (scale / glow / blur)**
+- [x] **Subtle UI animations (scale / glow / blur)** ✅ Done
   - Критерии приёмки: анимации не мешают чтению и не ломают accessibility
 
-- [ ] **Improved label readability**
+- [x] **Improved label readability** ✅ Done
   - Разумное поведение при большом количестве задач (ellipsis, размер шрифта, контраст)
   - Критерии приёмки: нет “перекрытий” текста и плохого контраста
 
-- [ ] **Accessibility & localization readiness**
+- [x] **Accessibility & localization readiness** ✅ Done
   - ContentDescription, TalkBack, large font scaling, RTL smoke-check
   - Критерии приёмки: критические элементы читаемы и доступны
 
