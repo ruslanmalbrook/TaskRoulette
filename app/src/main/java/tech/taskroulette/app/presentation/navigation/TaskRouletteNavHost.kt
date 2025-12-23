@@ -7,11 +7,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import tech.taskroulette.app.presentation.screens.HistoryScreen
-import tech.taskroulette.app.presentation.screens.HomeScreen
-import tech.taskroulette.app.presentation.screens.ResultScreen
-import tech.taskroulette.app.presentation.screens.SettingsScreen
-import tech.taskroulette.app.presentation.screens.TaskEditorScreen
+import tech.taskroulette.app.presentation.history.HistoryScreen
+import tech.taskroulette.app.presentation.home.HomeScreen
+import tech.taskroulette.app.presentation.result.ResultScreen
+import tech.taskroulette.app.presentation.settings.SettingsScreen
+import tech.taskroulette.app.presentation.taskeditor.TaskEditorScreen
 
 @Composable
 fun TaskRouletteNavHost(

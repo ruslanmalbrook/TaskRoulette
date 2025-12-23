@@ -28,6 +28,13 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+        create("benchmark") {
+            // Reason: dedicated build type for macrobenchmark runs (no behavior change).
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -62,8 +69,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
@@ -77,8 +86,16 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.room.testing)
 }
 
 kapt {
     correctErrorTypes = true
+
+    arguments {
+        // Reason: keep Room schema changes reviewable and migrations safer.
+        arg("room.schemaLocation", file("schemas").absolutePath)
+        arg("room.incremental", "true")
+        arg("room.expandProjection", "true")
+    }
 }
