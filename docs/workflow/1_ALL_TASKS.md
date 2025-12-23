@@ -128,7 +128,7 @@
 
 ### 4. Nice-to-have features (Optional)
 
-- [ ] **Completion tracking + streaks**
+- [ ] **Completion tracking + streaks** _(In Work → branch=`251224_feature_nicetohave_v1`)_
   - Mark task as done + longest streak calculation
 
 - [ ] **Task sets / presets**
