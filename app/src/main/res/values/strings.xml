@@ -44,6 +44,10 @@
     <string name="settings_title">Settings</string>
     <string name="settings_placeholder">Settings will be implemented in the next slices.</string>
     <string name="settings_sound">Sound</string>
+    <string name="settings_sound_theme">Sound theme</string>
+    <string name="settings_sound_theme_classic">Classic</string>
+    <string name="settings_sound_theme_soft">Soft</string>
+    <string name="settings_sound_theme_arcade">Arcade</string>
     <string name="settings_haptics">Haptics</string>
     <string name="settings_stats_title">Statistics</string>
     <string name="settings_stats_total">Total spins: %1$d</string>

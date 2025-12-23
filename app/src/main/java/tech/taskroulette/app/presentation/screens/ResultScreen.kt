@@ -55,7 +55,7 @@ fun ResultScreen(
             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
         }
         if (state.settings.isSoundEnabled) {
-            soundPlayer.playStop()
+            soundPlayer.playStop(state.settings.spinSoundTheme)
         }
     }
 

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tech.taskroulette.app.R
+import tech.taskroulette.app.domain.model.SpinSoundTheme
 import tech.taskroulette.app.presentation.settings.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,6 +61,29 @@ fun SettingsScreen(
                 )
             }
 
+            Text(
+                text = stringResource(id = R.string.settings_sound_theme),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            SoundThemeRow(
+                theme = SpinSoundTheme.Classic,
+                selected = state.settings.spinSoundTheme,
+                onSelect = viewModel::onSoundThemeChange,
+                label = stringResource(id = R.string.settings_sound_theme_classic),
+            )
+            SoundThemeRow(
+                theme = SpinSoundTheme.Soft,
+                selected = state.settings.spinSoundTheme,
+                onSelect = viewModel::onSoundThemeChange,
+                label = stringResource(id = R.string.settings_sound_theme_soft),
+            )
+            SoundThemeRow(
+                theme = SpinSoundTheme.Arcade,
+                selected = state.settings.spinSoundTheme,
+                onSelect = viewModel::onSoundThemeChange,
+                label = stringResource(id = R.string.settings_sound_theme_arcade),
+            )
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -86,6 +111,30 @@ fun SettingsScreen(
                 style = MaterialTheme.typography.bodyMedium,
             )
         }
+    }
+}
+
+@Composable
+private fun SoundThemeRow(
+    theme: SpinSoundTheme,
+    selected: SpinSoundTheme,
+    onSelect: (SpinSoundTheme) -> Unit,
+    label: String,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        RadioButton(
+            selected = theme == selected,
+            onClick = { onSelect(theme) },
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyMedium,
+        )
     }
 }
 

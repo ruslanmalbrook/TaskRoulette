@@ -107,7 +107,7 @@ fun HomeScreen(
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                         }
                         if (state.settings.isSoundEnabled && tickIndex % 2 == 0) {
-                            soundPlayer.playTick()
+                            soundPlayer.playTick(state.settings.spinSoundTheme)
                         }
                     }
                 }

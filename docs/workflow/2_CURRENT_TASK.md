@@ -1,73 +1,56 @@
 ## CURRENT TASK / Текущая задача
 
-### Task Roulette — Core MVP (Ship v1)
+### Task Roulette — UX polish tasks (Delight & perceived quality)
 
-**Branch (required before code changes):** `251224_feature_coremvp_ship_v1`  
-**Status:** Completed ✅  
-**Source:** `docs/workflow/1_ALL_TASKS.md` → `1. Core MVP tasks (Ship v1)`  
+**Branch (required before code changes):** `251224_feature_uxpolish_v1`  
+**Status:** In Progress  
+**Source:** `docs/workflow/1_ALL_TASKS.md` → `2. UX polish tasks (Delight & perceived quality)`  
 
 ---
 
 ## Goal / Цель
-Complete the full **Core MVP (Ship v1)** block:
-- Task CRUD (Create/Edit/Delete)
-- Roulette wheel composable + spin mechanics
-- Result + celebration (confetti + success haptic)
-- Game session persistence + History + Replay
-- Settings (sound/haptics toggles)
-- Local stats (total spins, most frequent task)
+Complete the full **UX polish** block to improve delight and perceived quality:
+- Multiple spin sound themes (2–3)
+- Confetti style variations (2–3)
+- Subtle UI animations (scale/glow/blur-like effects without performance regression)
+- Improved wheel label readability
+- Accessibility & localization readiness (strings, semantics, font scaling)
 
 ## Scope / В рамках задачи
-- **Tasks**
-  - Create/Edit/Delete in UI
-  - Auto-generated color harmony (editable)
-  - Weight affects probability and sector size
-- **Wheel & Spin**
-  - Canvas wheel with weighted sectors + labels
-  - Smooth spin animation, randomized feel
-  - Wheel stops exactly on selected task
-  - Sound + haptics (toggleable)
-- **Result**
-  - “Your task for now” + selected task
-  - Confetti + success haptic
-- **History & Replay**
-  - Store every spin as a session (snapshot tasks + selected)
-  - History list + details
-  - Replay uses same snapshot list, fresh spin, creates new session
-- **Settings & Stats**
-  - Sound/haptics toggles (DataStore)
-  - Total spins + most frequently selected task
+- Add **sound theme selection** in Settings and apply it in spin ticks + stop sound.
+- Add **confetti style selection** in Settings and apply it on Result screen.
+- Add subtle animations:
+  - Selected sector highlight pulse
+  - Small scale/alpha transitions where appropriate
+- Improve wheel labels:
+  - Dynamic truncation by available arc length
+  - Dynamic text sizing for dense wheels
+  - Avoid overlap/readability issues
+- Accessibility & localization:
+  - Ensure all user-visible strings are in `strings.xml`
+  - Add semantics/content descriptions for key UI elements (wheel, buttons)
+  - Verify no hard-coded English strings remain in UI layer
 
 ## Out of scope / Вне рамок
 - Monetization
 - Completion/streaks
 
 ## Acceptance Criteria / Критерии приёмки
-- Core MVP screens work end-to-end offline:
-  - Task Editor → Home (wheel) → Spin → Result → History → Replay → Result
-- Each spin creates a stored session (snapshot tasks + selected).
-- Wheel always stops on the selected task; selection respects weights.
-- Settings toggles apply immediately (sound/haptics).
-- Local stats are correct (total spins, most frequent task).
+- User can select between **2–3 sound themes**; theme affects spin tick/stop feedback immediately.
+- User can select between **2–3 confetti styles**; styles are visually distinct.
+- Wheel label readability improved for large task counts (no overlapping/garbled text; graceful truncation).
+- Subtle animations do not introduce jank; build remains green.
+- Accessibility basics: TalkBack descriptions for wheel + primary controls; all strings in resources.
 
 ---
 
 ## Work Breakdown (Slices) / Декомпозиция
-- [x] **Task CRUD (UI + persistence)** ✅
-- [x] **Color harmony generation (auto color)** ✅
-- [x] **Wheel composable + spin + session creation** ✅
-- [x] **Result screen + confetti** ✅
-- [x] **History + replay** ✅
-- [x] **Settings + stats** ✅
+- [ ] **Sound themes (2–3)**
+- [ ] **Confetti styles (2–3)**
+- [ ] **Subtle animations**
+- [ ] **Wheel label readability**
+- [ ] **Accessibility & localization readiness**
 
 ## Git note / Примечание по git (workflow)
-This repo looks like a fresh/empty git repo (unborn refs). Before the **first commit**, please create base branches and the feature branch:
-
-```bash
-git checkout -b main
-git checkout -b develop
-git checkout -b 251224_feature_coremvp_ship_v1
-```
-
-# Reason: workflow assumes feature branches are merged into `develop`.
+Work happens on feature branch `251224_feature_uxpolish_v1` and will be merged into `develop` when approved.
 

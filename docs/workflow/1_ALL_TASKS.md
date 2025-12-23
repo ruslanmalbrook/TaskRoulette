@@ -95,7 +95,7 @@
 
 ### 2. UX polish tasks (Delight & perceived quality)
 
-- [ ] **Multiple spin sound themes (2–3)**
+- [ ] **Multiple spin sound themes (2–3)** _(In Work → branch=`251224_feature_uxpolish_v1`)_
   - Критерии приёмки: тема меняется без крашей, корректно применена на спине
 
 - [ ] **Confetti style variations (2–3)**
