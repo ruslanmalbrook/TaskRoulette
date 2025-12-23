@@ -77,8 +77,16 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.room.testing)
 }
 
 kapt {
     correctErrorTypes = true
+
+    arguments {
+        // Reason: keep Room schema changes reviewable and migrations safer.
+        arg("room.schemaLocation", file("schemas").absolutePath)
+        arg("room.incremental", "true")
+        arg("room.expandProjection", "true")
+    }
 }

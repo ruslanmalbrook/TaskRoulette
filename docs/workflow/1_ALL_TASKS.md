@@ -114,7 +114,7 @@
 
 ### 3. Technical debt (future)
 
-- [ ] **Performance validation**
+- [ ] **Performance validation** _(In Work → branch=`251224_feature_techdebt_v1`)_
   - Macrobenchmark (cold start) + профилирование анимаций
 
 - [ ] **Room schema hardening**

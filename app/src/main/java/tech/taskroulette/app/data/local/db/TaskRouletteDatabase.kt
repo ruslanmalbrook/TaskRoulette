@@ -15,7 +15,7 @@ import tech.taskroulette.app.data.local.db.entity.TaskEntity
         SessionTaskEntity::class,
     ],
     version = 1,
-    exportSchema = false,
+    exportSchema = true,
 )
 abstract class TaskRouletteDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
