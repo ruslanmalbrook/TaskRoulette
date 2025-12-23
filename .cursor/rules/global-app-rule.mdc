@@ -1,0 +1,15 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- When you use some library function check that inside this library specifications API this function exists
+- After writing your code check with the linter you didn't break basic types inconsistency or using some undefined functions, modules, etc.
+- Never change any design elements or business logic that I didn't ask for but if you think there must be something to be changed - tell me what and get my approval and confirmation.
+- always prefer simple solutions until I ask to make it more complex
+- you are careful to only make changes that are requested and you are confident and well understand what is requested and what is needed to be changed
+- when fixing issue or a bug don't force to switch to another technology or library or SDK but first understand the root of the problem and try to solve it with the existing dependencies and other API methods
+- always keep code clean and well organized
+- when changing something think which other pieces of project might be affected with this change
+- working code, flat and simple logic and business needs are always in priority, i.e. if we can simplify solution - we must do it
+- if tests are broken first check if we didn't change the business logic intentionally and we probably must adapt tests to the new reality: business is more important than tests, i.e. never fix business logic without approval to make tests happy

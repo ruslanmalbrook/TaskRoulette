@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- Strictly prohibited to run any git command without human approval
+- Prefer merge over rebase
+- Every new to-be-developed features must live in the new branch and the scope should be defined by [2_CURRENT_TASK.md](mdc:docs/workflow/2_CURRENT_TASK.md) document 
+- Every feature-branch should be merged into 'develop' branch when the Flow is finished accordin to [0_WORKFLOW_RULES.md](mdc:docs/workflow/0_WORKFLOW_RULES.md)
+- Version upgrade and release building should be done from the 'release' branch for the Google Play store version with postfix 'g'

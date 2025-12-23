@@ -1,0 +1,139 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+### Purpose & Scope
+These rules exist to:
+1. Keep the code-base consistent, clean and maintainable.
+2. Ensure modern Android/Kotlin best-practices are applied.
+3. Provide clear guard-rails for LLM-assisted development.
+
+All contributors (human or AI) **MUST** follow this document unless a deviation is explicitly approved in writing by a senior developer.
+
+---
+### Architecture Principles
+• Clean Architecture with MVVM presentation layer.  
+• Single-direction data flow: UI ↔ ViewModel ↔ UseCase ↔ Repository ↔ DataSource.  
+• Business logic lives in *UseCase* classes.  
+• Data access is abstracted through *Repository* interfaces with separate Remote & Local implementations.  
+• Inject dependencies using **Hilt** (preferred) or **Dagger 2** (legacy parts).  
+• UI components use **ViewBinding** or **Jetpack Compose** (new screens).
+
+---
+### Class & File Naming
+| Layer | Suffix | Example |
+|-------|--------|---------|
+| Fragment | `Fragment` | `QuickScanFragment` |
+| Activity | `Activity` | `MainActivity` |
+| ViewModel | `ViewModel` | `QuickScanViewModel` |
+| UseCase | `UseCase` | `CleanCacheUseCase` |
+| Repository (interface) | `Repository` | `UserRepository` |
+| Repository (impl) | `RepositoryImpl` | `UserRepositoryImpl` |
+| Adapter | `Adapter` | `AppsListAdapter` |
+| Utils (stateless) | `object` | `DateUtils` |
+
+Variable / Method names → `camelCase`; booleans start with `is/has/should/can`; constants in `SCREAMING_SNAKE_CASE` inside `companion object` or `object Constants`.
+
+---
+### Kotlin Coding Standards
+• Explicit return types on all **public** functions & properties.  
+• Prefer `val` over `var`; restrict mutability.  
+• Default visibility is `private`; expose only what is required for tests or API.  
+• Trailing commas on multi-line lists/maps/args.  
+• Max line length **120** characters.  
+• Keep functions < **50** lines; extract helpers otherwise.
+
+---
+### Concurrency (Coroutines)
+• Use **structured concurrency** – launch coroutines only from a `CoroutineScope` tied to lifecycle (e.g., `viewModelScope`, `lifecycleScope`).  
+• Dispatcher rules: `Dispatchers.IO` for blocking I/O, `Dispatchers.Default` for CPU heavy jobs, `Dispatchers.Main` for UI.  
+• Always handle cancellation (e.g., `isActive` checks in long loops).  
+• Prefer `suspend` functions over callbacks / Rx when adding new code.
+
+---
+### Error Handling & Logging
+• Wrap risky operations with `try/catch`; never swallow exceptions silently – log or rethrow with context.  
+• Use a central `Logger`/`CrashReporter` abstraction; no `println`/raw `Log.d` in production code.  
+• Show user-friendly messages; never expose internal stack-traces.  
+• Fail soft but *loud*: recover when possible, otherwise surface a controlled error state to UI.
+
+---
+### Resources & UI
+• Resource naming:  
+  • Layouts `[type]_[feature]` → `fragment_quick_scan`.  
+  • Drawables `[category]_[description]` → `ic_premium_check`.  
+  • IDs `[viewType][Description]` → `btnSubmit`.  
+• Never hard-code dimensions or colors; use theme attributes & `dimens.xml`.  
+• Support **dark mode** unless business decides otherwise.  
+• Observe `viewLifecycleOwner` for LiveData/StateFlow to avoid leaks.  
+• Cancel animations & clear bindings in `onDestroyView`.
+
+---
+### Permissions & Security
+• Request only minimum required permissions and explain the rationale to users.  
+• Check permission status before each sensitive operation.  
+• Store sensitive data in encrypted preferences or Keystore; never plain text.  
+• Validate user input & file paths to avoid injection / path traversal.
+
+---
+### Privacy & Data-Protection
+• Collect analytics **only** after explicit consent (GDPR/CCPA).  
+• Provide opt-out controls in Settings.  
+• Use secure TLS connections for any network traffic.  
+• Do not log PII.
+
+---
+### esting & Quality Assurance
+• Unit tests for all UseCases & Repositories (happy + edge cases).  
+• UI tests for critical flows (Espresso or Compose Test).  
+• New code must reach ≥ **80 %** line coverage.  
+• Fast tests run on every PR; slow instrumentation tests at least once before release.
+
+---
+### Analytics & Monetization
+• Event naming: `[screen]_[action]_[element]` (snake_case).  
+• Always put analytics for important logic flows and errors
+
+---
+### Documentation & Comments
+• Document public APIs with **KDoc**.  
+• Inline comments focus on *why*, not what (use `// Reason:`).  
+• Keep docs up-to-date; outdated comments are worse than none.
+
+---
+### Localization & Accessibility
+• All user-visible strings in `strings.xml`; mark non-translatables.  
+• Test UI with long translations and RTL locales.  
+• Provide content descriptions for interactive elements; pass accessibility checks.
+
+---
+### Performance
+• Apply lazy loading & pagination for large lists.  
+• Avoid memory leaks – no long-lived references to `Context`/`View`.  
+• Measure with **Android Profiler** before premature optimisation.  
+• Respect battery & background execution limits; use `WorkManager` for deferrable tasks.
+
+---
+### Dependency Management & Updates
+• Declare libraries in **Gradle Version Catalog** (or central `build.gradle`).  
+• Monitor for CVE/security updates and apply patch versions quickly.  
+• Remove unused libraries to keep APK thin.
+
+---
+### LLM-Assistant Ground Rules
+• AI must not invent APIs – only use existing or newly-added dependencies.  
+• Ask clarifying questions when context is insufficient.  
+• Keep edits minimal, scoped and 100 % compilable.  
+• Never leak private keys, tokens or sensitive data in chat or code.
+
+---
+### Review Checklist (TL;DR)
+1. ❑ Follows architectural layers & naming.  
+2. ❑ Null-safety & error-handling in place.  
+3. ❑ UI uses binding/Compose, no leaks.  
+4. ❑ Coroutine scope/cancellation handled.  
+5. ❑ No hard-coded strings, colors or dimensions.  
+6. ❑ Unit/UI tests added or updated.  
+7. ❑ Documentation updated.  
+8. ❑ Security/privacy considerations addressed.

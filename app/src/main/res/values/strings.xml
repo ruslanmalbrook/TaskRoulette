@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Task Roulette</string>
+
+    <!-- Common -->
+    <string name="action_back">Back</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_replay">Replay</string>
+
+    <!-- Home -->
+    <string name="home_wheel_placeholder">Roulette wheel will be here.</string>
+    <string name="home_spin">Spin</string>
+    <string name="home_spin_coming_soon">Spin (coming soon)</string>
+    <string name="home_active_task">Active: %1$s</string>
+    <string name="home_edit_tasks">Edit tasks</string>
+    <string name="home_history">History</string>
+    <string name="home_settings">Settings</string>
+
+    <!-- Task editor -->
+    <string name="task_editor_title">Task Editor</string>
+    <string name="task_editor_add">Add</string>
+    <string name="task_editor_empty">No tasks yet. Tap Add to create one.</string>
+    <string name="task_editor_add_dialog_title">Add task</string>
+    <string name="task_editor_edit_dialog_title">Edit task</string>
+    <string name="task_editor_title_label">Title</string>
+    <string name="task_editor_title_error">Title is required.</string>
+    <string name="task_editor_weight_label">Weight</string>
+    <string name="task_editor_weight_value">Weight: %1$d</string>
+    <string name="task_editor_color_label">Color</string>
+
+    <!-- Result -->
+    <string name="result_title">Result</string>
+    <string name="result_your_task_for_now">Your task for now</string>
+    <string name="result_task_placeholder">—</string>
+    <string name="result_back_to_home">Back to Home</string>
+
+    <!-- History -->
+    <string name="history_title">History</string>
+    <string name="history_placeholder">Session history will be implemented in the next slices.</string>
+    <string name="history_empty">No sessions yet.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_placeholder">Settings will be implemented in the next slices.</string>
+    <string name="settings_sound">Sound</string>
+    <string name="settings_haptics">Haptics</string>
+    <string name="settings_stats_title">Statistics</string>
+    <string name="settings_stats_total">Total spins: %1$d</string>
+    <string name="settings_stats_most_frequent">Most frequent: %1$s</string>
+</resources>
