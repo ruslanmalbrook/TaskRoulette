@@ -17,6 +17,9 @@
     <string name="home_history">History</string>
     <string name="home_settings">Settings</string>
 
+    <!-- Accessibility -->
+    <string name="a11y_wheel_description">Roulette wheel with %1$d tasks</string>
+
     <!-- Task editor -->
     <string name="task_editor_title">Task Editor</string>
     <string name="task_editor_add">Add</string>
@@ -56,4 +59,7 @@
     <string name="settings_stats_title">Statistics</string>
     <string name="settings_stats_total">Total spins: %1$d</string>
     <string name="settings_stats_most_frequent">Most frequent: %1$s</string>
+
+    <!-- Generic placeholders -->
+    <string name="placeholder_dash">—</string>
 </resources>

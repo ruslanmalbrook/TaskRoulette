@@ -130,7 +130,7 @@ fun SettingsScreen(
             Text(
                 text = stringResource(
                     id = R.string.settings_stats_most_frequent,
-                    state.stats.mostFrequentTaskTitle ?: "—",
+                    state.stats.mostFrequentTaskTitle ?: stringResource(id = R.string.placeholder_dash),
                 ),
                 style = MaterialTheme.typography.bodyMedium,
             )

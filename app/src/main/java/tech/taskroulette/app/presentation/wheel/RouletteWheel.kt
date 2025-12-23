@@ -4,6 +4,11 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -40,6 +45,16 @@ fun RouletteWheel(
         }
     }
 
+    val pulse = rememberInfiniteTransition(label = "wheel_pulse").animateFloat(
+        initialValue = 0.45f,
+        targetValue = 0.9f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 650),
+            repeatMode = RepeatMode.Reverse,
+        ),
+        label = "pulse_alpha",
+    )
+
     Box(modifier = modifier) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             val sizeMin = min(size.width, size.height)
@@ -66,7 +81,7 @@ fun RouletteWheel(
                 val sector = sectors.firstOrNull { it.task.id == taskId }
                 if (sector != null) {
                     drawArc(
-                        color = Color.White.copy(alpha = 0.75f),
+                        color = Color.White.copy(alpha = pulse.value),
                         startAngle = rotationDegrees + sector.startAngleDegrees.toFloat(),
                         sweepAngle = sector.sweepAngleDegrees.toFloat(),
                         useCenter = false,
@@ -84,7 +99,7 @@ fun RouletteWheel(
             val textRadius = radius * 0.62f
 
             sectors.forEach { sector ->
-                if (sector.sweepAngleDegrees < 14.0) return@forEach
+                if (sector.sweepAngleDegrees < 12.0) return@forEach
 
                 val midAngle = rotationDegrees.toDouble() + sector.startAngleDegrees + sector.sweepAngleDegrees / 2.0
                 val radians = Math.toRadians(midAngle)
@@ -96,7 +111,20 @@ fun RouletteWheel(
                 val textColor = if (bg.luminance() < 0.45f) Color.White else Color.Black
                 labelPaint.color = textColor.toArgbInt()
 
-                val title = sector.task.title.take(14)
+                val sweepRadians = Math.toRadians(sector.sweepAngleDegrees)
+                val availableArcPx = (sweepRadians * textRadius.toDouble() * 0.82).toFloat()
+
+                labelPaint.textSize = when {
+                    sector.sweepAngleDegrees >= 32.0 -> labelTextSizePx
+                    sector.sweepAngleDegrees >= 22.0 -> (labelTextSizePx * 0.9f)
+                    else -> (labelTextSizePx * 0.8f)
+                }
+
+                val title = truncateToWidth(
+                    text = sector.task.title,
+                    maxWidthPx = availableArcPx,
+                    paint = labelPaint,
+                )
                 nativeCanvas.save()
                 nativeCanvas.translate(x, y)
                 nativeCanvas.rotate(midAngle.toFloat() + 90f)
@@ -147,5 +175,29 @@ private fun Color.toArgbInt(): Int = android.graphics.Color.argb(
     (green * 255).toInt(),
     (blue * 255).toInt(),
 )
+
+private fun truncateToWidth(
+    text: String,
+    maxWidthPx: Float,
+    paint: android.graphics.Paint,
+): String {
+    val trimmed = text.trim()
+    if (trimmed.isEmpty()) return ""
+    if (maxWidthPx <= 0f) return ""
+
+    if (paint.measureText(trimmed) <= maxWidthPx) return trimmed
+
+    val ellipsis = "…"
+    val ellipsisWidth = paint.measureText(ellipsis)
+    if (ellipsisWidth >= maxWidthPx) return ""
+
+    var end = trimmed.length
+    while (end > 0) {
+        val candidate = trimmed.substring(0, end) + ellipsis
+        if (paint.measureText(candidate) <= maxWidthPx) return candidate
+        end -= 1
+    }
+    return ellipsis
+}
 
 

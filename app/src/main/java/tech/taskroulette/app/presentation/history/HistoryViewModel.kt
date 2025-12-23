@@ -52,7 +52,7 @@ class HistoryViewModel @Inject constructor(
         return HistorySessionItem(
             id = id,
             createdAtEpochMillis = createdAtEpochMillis,
-            selectedTitle = selected?.title ?: "—",
+            selectedTitle = selected?.title,
         )
     }
 }
@@ -64,7 +64,7 @@ data class HistoryUiState(
 data class HistorySessionItem(
     val id: String,
     val createdAtEpochMillis: Long,
-    val selectedTitle: String,
+    val selectedTitle: String?,
 )
 
 sealed class HistoryEvent {

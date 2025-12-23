@@ -3,7 +3,7 @@
 ### Task Roulette — UX polish tasks (Delight & perceived quality)
 
 **Branch (required before code changes):** `251224_feature_uxpolish_v1`  
-**Status:** In Progress  
+**Status:** Completed ✅  
 **Source:** `docs/workflow/1_ALL_TASKS.md` → `2. UX polish tasks (Delight & perceived quality)`  
 
 ---
@@ -45,11 +45,11 @@ Complete the full **UX polish** block to improve delight and perceived quality:
 ---
 
 ## Work Breakdown (Slices) / Декомпозиция
-- [ ] **Sound themes (2–3)**
-- [ ] **Confetti styles (2–3)**
-- [ ] **Subtle animations**
-- [ ] **Wheel label readability**
-- [ ] **Accessibility & localization readiness**
+- [x] **Sound themes (2–3)** ✅
+- [x] **Confetti styles (2–3)** ✅
+- [x] **Subtle animations** ✅
+- [x] **Wheel label readability** ✅
+- [x] **Accessibility & localization readiness** ✅
 
 ## Git note / Примечание по git (workflow)
 Work happens on feature branch `251224_feature_uxpolish_v1` and will be merged into `develop` when approved.

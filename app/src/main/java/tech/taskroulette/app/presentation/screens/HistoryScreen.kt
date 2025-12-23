@@ -113,7 +113,7 @@ private fun SessionRow(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = item.selectedTitle,
+                text = item.selectedTitle ?: stringResource(id = R.string.placeholder_dash),
                 style = MaterialTheme.typography.bodyLarge,
                 maxLines = 1,
             )

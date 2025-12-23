@@ -28,6 +28,8 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -52,6 +54,10 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val wheelA11yDescription = stringResource(
+        id = R.string.a11y_wheel_description,
+        state.wheelTasks.size,
+    )
     val rotation = remember { Animatable(0f) }
     val haptic = LocalHapticFeedback.current
     val soundPlayer = remember { ToneSoundPlayer() }
@@ -149,7 +155,11 @@ fun HomeScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .semantics {
+                        // Reason: semantics {} is not a composable scope.
+                        contentDescription = wheelA11yDescription
+                    },
             ) {
                 RouletteWheel(
                     sectors = state.sectors,

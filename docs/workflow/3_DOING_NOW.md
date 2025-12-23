@@ -31,11 +31,33 @@ Add 2–3 distinct sound themes and allow selection in Settings; apply during sp
 - No crashes when toggling sound off/on and switching themes.
 
 ## Implementation Checklist
-- [ ] Add `SpinSoundTheme` to Settings (persist in DataStore)
-- [ ] Update `ToneSoundPlayer` to support themes
-- [ ] Update Settings screen to pick theme
-- [ ] Ensure Home/Result use selected theme
-- [ ] Build `:app:assembleDebug`
+- [x] Add `SpinSoundTheme` to Settings (persist in DataStore)
+- [x] Update `ToneSoundPlayer` to support themes
+- [x] Update Settings screen to pick theme
+- [x] Ensure Home/Result use selected theme
+- [x] Build `:app:assembleDebug`
+
+---
+
+## Checkpoint B — Confetti styles (2–3) ✅ Done
+
+## Implementation Checklist
+- [x] Add `ConfettiStyle` to Settings (persist in DataStore)
+- [x] Add 3 distinct confetti styles
+- [x] Apply selected style on Result screen
+- [x] Build `:app:assembleDebug`
+
+---
+
+## Checkpoint C — Labels + subtle animations + accessibility ✅ Done
+
+## Implementation Checklist
+- [x] Improve wheel label truncation and dynamic sizing (no garbled text)
+- [x] Subtle highlight pulse for selected sector
+- [x] Add basic semantics (wheel content description)
+- [x] Remove hard-coded UI placeholders from Kotlin (use resources)
+- [x] Build `:app:assembleDebug`
+- [x] Unit tests `:app:testDebugUnitTest`
 
 ## Files to touch (expected)
 - `app/src/main/java/tech/taskroulette/app/domain/model/Settings.kt`
