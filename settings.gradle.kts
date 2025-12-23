@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "TaskRoulette"
 include(":app")
+include(":benchmark")

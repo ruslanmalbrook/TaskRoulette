@@ -28,6 +28,13 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+        create("benchmark") {
+            // Reason: dedicated build type for macrobenchmark runs (no behavior change).
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
