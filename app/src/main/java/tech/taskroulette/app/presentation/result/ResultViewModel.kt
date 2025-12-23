@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import tech.taskroulette.app.domain.model.ConfettiStyle
 import tech.taskroulette.app.domain.model.Settings
 import tech.taskroulette.app.domain.usecase.session.GetGameSessionUseCase
 import tech.taskroulette.app.domain.usecase.settings.ObserveSettingsUseCase
@@ -36,7 +37,12 @@ class ResultViewModel @Inject constructor(
     init {
         observeSettingsUseCase()
             .onEach { settings ->
-                _state.update { current -> current.copy(settings = settings) }
+                _state.update { current ->
+                    current.copy(
+                        settings = settings,
+                        confettiStyle = settings.confettiStyle,
+                    )
+                }
             }
             .launchIn(viewModelScope)
 
@@ -60,6 +66,7 @@ data class ResultUiState(
     val settings: Settings = Settings.Default,
     val selectedTaskTitle: String? = null,
     val selectedTaskColorArgb: Int? = null,
+    val confettiStyle: ConfettiStyle = Settings.Default.confettiStyle,
 )
 
 

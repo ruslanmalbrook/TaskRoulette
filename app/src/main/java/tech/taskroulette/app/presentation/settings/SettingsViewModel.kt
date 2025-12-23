@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import tech.taskroulette.app.domain.model.ConfettiStyle
 import tech.taskroulette.app.domain.model.Settings
 import tech.taskroulette.app.domain.model.SpinSoundTheme
 import tech.taskroulette.app.domain.repository.SettingsRepository
@@ -61,6 +62,12 @@ class SettingsViewModel @Inject constructor(
     fun onSoundThemeChange(theme: SpinSoundTheme): Unit {
         viewModelScope.launch {
             settingsRepository.setSpinSoundTheme(theme)
+        }
+    }
+
+    fun onConfettiStyleChange(style: ConfettiStyle): Unit {
+        viewModelScope.launch {
+            settingsRepository.setConfettiStyle(style)
         }
     }
 }

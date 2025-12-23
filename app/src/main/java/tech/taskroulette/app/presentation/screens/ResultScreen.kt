@@ -113,6 +113,7 @@ fun ResultScreen(
 
             ConfettiOverlay(
                 isRunning = !state.sessionId.isNullOrBlank(),
+                style = state.confettiStyle,
                 modifier = Modifier.fillMaxSize(),
             )
         }

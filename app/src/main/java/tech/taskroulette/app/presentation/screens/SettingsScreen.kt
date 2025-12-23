@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tech.taskroulette.app.R
+import tech.taskroulette.app.domain.model.ConfettiStyle
 import tech.taskroulette.app.domain.model.SpinSoundTheme
 import tech.taskroulette.app.presentation.settings.SettingsViewModel
 
@@ -96,6 +97,29 @@ fun SettingsScreen(
             }
 
             Text(
+                text = stringResource(id = R.string.settings_confetti_style),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            ConfettiStyleRow(
+                style = ConfettiStyle.Classic,
+                selected = state.settings.confettiStyle,
+                onSelect = viewModel::onConfettiStyleChange,
+                label = stringResource(id = R.string.settings_confetti_style_classic),
+            )
+            ConfettiStyleRow(
+                style = ConfettiStyle.Pop,
+                selected = state.settings.confettiStyle,
+                onSelect = viewModel::onConfettiStyleChange,
+                label = stringResource(id = R.string.settings_confetti_style_pop),
+            )
+            ConfettiStyleRow(
+                style = ConfettiStyle.Streamers,
+                selected = state.settings.confettiStyle,
+                onSelect = viewModel::onConfettiStyleChange,
+                label = stringResource(id = R.string.settings_confetti_style_streamers),
+            )
+
+            Text(
                 text = stringResource(id = R.string.settings_stats_title),
                 style = MaterialTheme.typography.titleMedium,
             )
@@ -130,6 +154,30 @@ private fun SoundThemeRow(
         RadioButton(
             selected = theme == selected,
             onClick = { onSelect(theme) },
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+}
+
+@Composable
+private fun ConfettiStyleRow(
+    style: ConfettiStyle,
+    selected: ConfettiStyle,
+    onSelect: (ConfettiStyle) -> Unit,
+    label: String,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        RadioButton(
+            selected = style == selected,
+            onClick = { onSelect(style) },
         )
         Text(
             text = label,

@@ -49,6 +49,10 @@
     <string name="settings_sound_theme_soft">Soft</string>
     <string name="settings_sound_theme_arcade">Arcade</string>
     <string name="settings_haptics">Haptics</string>
+    <string name="settings_confetti_style">Confetti style</string>
+    <string name="settings_confetti_style_classic">Classic</string>
+    <string name="settings_confetti_style_pop">Pop</string>
+    <string name="settings_confetti_style_streamers">Streamers</string>
     <string name="settings_stats_title">Statistics</string>
     <string name="settings_stats_total">Total spins: %1$d</string>
     <string name="settings_stats_most_frequent">Most frequent: %1$s</string>
