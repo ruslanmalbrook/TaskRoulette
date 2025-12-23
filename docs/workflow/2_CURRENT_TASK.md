@@ -3,7 +3,7 @@
 ### Task Roulette — Technical debt (future)
 
 **Branch (required before code changes):** `251224_feature_techdebt_v1`  
-**Status:** In Progress  
+**Status:** Completed ✅  
 **Source:** `docs/workflow/1_ALL_TASKS.md` → `3. Technical debt (future)`  
 
 ---
@@ -38,11 +38,11 @@ This block MUST NOT change product behavior. Focus on maintainability, safety an
 ---
 
 ## Work Breakdown (Slices) / Декомпозиция
-- [ ] **Room schema hardening**
-- [ ] **Codebase modularization**
-- [ ] **Testing discipline**
-- [ ] **Performance validation**
+- [x] **Room schema hardening** ✅
+- [x] **Codebase modularization** ✅
+- [x] **Testing discipline** ✅
+- [x] **Performance validation** ✅
 
 ## Git note / Примечание по git (workflow)
-Work happens on feature branch `251224_feature_uxpolish_v1` and will be merged into `develop` when approved.
+Work happens on feature branch `251224_feature_techdebt_v1` and will be merged into `develop` when approved.
 

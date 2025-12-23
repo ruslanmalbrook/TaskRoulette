@@ -114,16 +114,16 @@
 
 ### 3. Technical debt (future)
 
-- [ ] **Performance validation** _(In Work → branch=`251224_feature_techdebt_v1`)_
+- [x] **Performance validation** ✅ Done _(branch=`251224_feature_techdebt_v1`)_
   - Macrobenchmark (cold start) + профилирование анимаций
 
-- [ ] **Room schema hardening**
+- [x] **Room schema hardening** ✅ Done
   - Экспорт схемы, миграции, тесты миграций (по мере изменений)
 
-- [ ] **Codebase modularization (по мере роста)**
+- [x] **Codebase modularization (по мере роста)** ✅ Done
   - Разделение по фичам (wheel/history/settings), чтобы не разрастались файлы
 
-- [ ] **Testing discipline**
+- [x] **Testing discipline** ✅ Done
   - Расширить покрытие UseCases & Repositories (happy + edge), UI tests для критического флоу
 
 ### 4. Nice-to-have features (Optional)

@@ -30,36 +30,39 @@ Harden Room database maintenance: schema export + migration testing scaffold.
 - Migration test scaffolding compiles and can be run.
 
 ## Implementation Checklist
-- [ ] Enable `exportSchema = true` and configure schema location
-- [ ] Commit generated schemas
-- [ ] Add migration test scaffold (androidTest)
-- [ ] Build `:app:assembleDebug`
-
----
-
-## Checkpoint B — Confetti styles (2–3) ✅ Done
-
-## Implementation Checklist
-- [x] Add `ConfettiStyle` to Settings (persist in DataStore)
-- [x] Add 3 distinct confetti styles
-- [x] Apply selected style on Result screen
+- [x] Enable `exportSchema = true` and configure schema location
+- [x] Commit generated schemas
+- [x] Add migration test scaffold (androidTest)
 - [x] Build `:app:assembleDebug`
 
 ---
 
-## Checkpoint C — Labels + subtle animations + accessibility ✅ Done
+## Checkpoint B — Codebase modularization ✅ Done
 
 ## Implementation Checklist
-- [x] Improve wheel label truncation and dynamic sizing (no garbled text)
-- [x] Subtle highlight pulse for selected sector
-- [x] Add basic semantics (wheel content description)
-- [x] Remove hard-coded UI placeholders from Kotlin (use resources)
+- [x] Move Compose screens next to their feature ViewModels (feature-oriented packages)
+- [x] Update navigation imports accordingly
+- [x] Build `:app:assembleDebug`
+
+---
+
+## Checkpoint C — Tests + Macrobenchmark scaffold + final verification ✅ Done
+
+## Implementation Checklist
+- [x] Add extra unit tests (stats + spin plan invariants)
+- [x] Add repository instrumentation test (TaskRepositoryImpl)
+- [x] Add Compose UI smoke test for critical flow
+- [x] Add Macrobenchmark module scaffold `:benchmark` + benchmark build type for `:app`
+- [x] Add run docs for Macrobenchmark
 - [x] Build `:app:assembleDebug`
 - [x] Unit tests `:app:testDebugUnitTest`
+- [x] Build `:benchmark:assembleBenchmark`
 
 ## Files to touch (expected)
--- `app/src/main/java/tech/taskroulette/app/data/local/db/TaskRouletteDatabase.kt`
--- `app/build.gradle.kts`
--- `app/schemas/` (new folder committed)
--- `app/src/androidTest/...` (migration test)
+- `app/src/main/java/tech/taskroulette/app/data/local/db/TaskRouletteDatabase.kt`
+- `app/build.gradle.kts`
+- `app/schemas/` (new folder committed)
+- `app/src/androidTest/...` (migration test)
+- `benchmark/` (new module)
+- `docs/helpers/performance_validation.md`
 
