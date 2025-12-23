@@ -1,4 +1,4 @@
-package tech.taskroulette.app.presentation.screens
+package tech.taskroulette.app.presentation.result
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +33,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tech.taskroulette.app.R
 import tech.taskroulette.app.presentation.confetti.ConfettiOverlay
-import tech.taskroulette.app.presentation.result.ResultViewModel
 import tech.taskroulette.app.presentation.sound.ToneSoundPlayer
 
 @OptIn(ExperimentalMaterial3Api::class)
