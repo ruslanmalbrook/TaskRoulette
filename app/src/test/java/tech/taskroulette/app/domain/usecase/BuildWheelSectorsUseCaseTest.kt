@@ -3,6 +3,7 @@ package tech.taskroulette.app.domain.usecase
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import tech.taskroulette.app.domain.model.TaskSet
 import tech.taskroulette.app.domain.model.Task
 
 class BuildWheelSectorsUseCaseTest {
@@ -17,7 +18,7 @@ class BuildWheelSectorsUseCaseTest {
     fun `build returns one sector of 360 degrees when single task`() {
         val useCase = BuildWheelSectorsUseCase()
         val sectors = useCase.build(
-            listOf(Task(id = "a", title = "A", colorArgb = 0, weight = 1)),
+            listOf(Task(id = "a", title = "A", colorArgb = 0, weight = 1, taskSetId = TaskSet.DEFAULT_ID)),
         )
 
         assertEquals(1, sectors.size)
@@ -30,9 +31,9 @@ class BuildWheelSectorsUseCaseTest {
         val useCase = BuildWheelSectorsUseCase()
         val sectors = useCase.build(
             listOf(
-                Task(id = "a", title = "A", colorArgb = 0, weight = 1),
-                Task(id = "b", title = "B", colorArgb = 0, weight = 2),
-                Task(id = "c", title = "C", colorArgb = 0, weight = 3),
+                Task(id = "a", title = "A", colorArgb = 0, weight = 1, taskSetId = TaskSet.DEFAULT_ID),
+                Task(id = "b", title = "B", colorArgb = 0, weight = 2, taskSetId = TaskSet.DEFAULT_ID),
+                Task(id = "c", title = "C", colorArgb = 0, weight = 3, taskSetId = TaskSet.DEFAULT_ID),
             ),
         )
 
@@ -57,8 +58,8 @@ class BuildWheelSectorsUseCaseTest {
         val useCase = BuildWheelSectorsUseCase()
         val sectors = useCase.build(
             listOf(
-                Task(id = "a", title = "A", colorArgb = 0, weight = 0),
-                Task(id = "b", title = "B", colorArgb = 0, weight = -10),
+                Task(id = "a", title = "A", colorArgb = 0, weight = 0, taskSetId = TaskSet.DEFAULT_ID),
+                Task(id = "b", title = "B", colorArgb = 0, weight = -10, taskSetId = TaskSet.DEFAULT_ID),
             ),
         )
 

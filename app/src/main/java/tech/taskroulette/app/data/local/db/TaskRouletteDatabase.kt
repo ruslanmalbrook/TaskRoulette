@@ -4,21 +4,26 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import tech.taskroulette.app.data.local.db.dao.GameSessionDao
 import tech.taskroulette.app.data.local.db.dao.TaskDao
+import tech.taskroulette.app.data.local.db.dao.TaskSetDao
 import tech.taskroulette.app.data.local.db.entity.GameSessionEntity
 import tech.taskroulette.app.data.local.db.entity.SessionTaskEntity
 import tech.taskroulette.app.data.local.db.entity.TaskEntity
+import tech.taskroulette.app.data.local.db.entity.TaskSetEntity
 
 @Database(
     entities = [
         TaskEntity::class,
+        TaskSetEntity::class,
         GameSessionEntity::class,
         SessionTaskEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = true,
 )
 abstract class TaskRouletteDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
+
+    abstract fun taskSetDao(): TaskSetDao
 
     abstract fun gameSessionDao(): GameSessionDao
 }

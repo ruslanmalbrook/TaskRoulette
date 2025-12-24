@@ -4,6 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 import tech.taskroulette.app.domain.model.Task
+import tech.taskroulette.app.domain.model.TaskSet
 import tech.taskroulette.app.domain.random.FakeRandomProvider
 import tech.taskroulette.app.domain.usecase.BuildWheelSectorsUseCase
 import tech.taskroulette.app.domain.usecase.SelectTaskByWeightUseCase
@@ -28,8 +29,8 @@ class PlanSpinUseCaseTest {
         )
 
         val tasks = listOf(
-            Task(id = "1", title = "A", colorArgb = 0, weight = 1),
-            Task(id = "2", title = "B", colorArgb = 0, weight = 1),
+            Task(id = "1", title = "A", colorArgb = 0, weight = 1, taskSetId = TaskSet.DEFAULT_ID),
+            Task(id = "2", title = "B", colorArgb = 0, weight = 1, taskSetId = TaskSet.DEFAULT_ID),
         )
 
         val plan = useCase.plan(tasks = tasks, currentRotationDegrees = 0f)

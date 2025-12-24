@@ -37,6 +37,8 @@
     <string name="result_your_task_for_now">Your task for now</string>
     <string name="result_task_placeholder">—</string>
     <string name="result_back_to_home">Back to Home</string>
+    <string name="result_mark_done">Mark done</string>
+    <string name="result_marked_done">Task marked as done!</string>
 
     <!-- History -->
     <string name="history_title">History</string>
@@ -59,6 +61,24 @@
     <string name="settings_stats_title">Statistics</string>
     <string name="settings_stats_total">Total spins: %1$d</string>
     <string name="settings_stats_most_frequent">Most frequent: %1$s</string>
+    <string name="settings_progress_title">Progress</string>
+    <string name="settings_progress_current_streak">Current streak: %1$d days</string>
+    <string name="settings_progress_longest_streak">Longest streak: %1$d days</string>
+    <string name="settings_task_sets_title">Task Sets</string>
+    <string name="settings_task_sets_active">Active: %1$s</string>
+    <string name="settings_task_sets_add">Add new set</string>
+    <string name="settings_task_sets_add_dialog_title">New task set</string>
+    <string name="settings_task_sets_name_label">Name</string>
+    <string name="settings_task_sets_name_error">Name is required.</string>
+    <string name="settings_task_sets_empty">No task sets yet.</string>
+    <string name="settings_import_export_title">Import / Export</string>
+    <string name="settings_export">Export tasks</string>
+    <string name="settings_import">Import tasks</string>
+    <string name="settings_import_success">Successfully imported %1$d tasks</string>
+    <string name="settings_import_error">Import failed: %1$s</string>
+    <string name="settings_import_dialog_title">Import tasks</string>
+    <string name="settings_import_dialog_create_new">Create new task set</string>
+    <string name="settings_import_dialog_into_active">Import into active set</string>
 
     <!-- Generic placeholders -->
     <string name="placeholder_dash">—</string>

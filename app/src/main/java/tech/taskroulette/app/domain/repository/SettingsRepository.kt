@@ -15,6 +15,8 @@ interface SettingsRepository {
     suspend fun setSpinSoundTheme(theme: SpinSoundTheme): Unit
 
     suspend fun setConfettiStyle(style: ConfettiStyle): Unit
+
+    suspend fun setActiveTaskSetId(taskSetId: String): Unit
 }
 
 

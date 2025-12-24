@@ -5,35 +5,35 @@
 
 ---
 
-## Technical debt execution — continuous
+## Nice-to-have execution — continuous
 
 ## Goal / Цель
-Finish the entire block `3. Technical debt (future)` **without waiting for per-slice approvals**, but with frequent **checkpoints + commits**.
+Finish the entire block `4. Nice-to-have features (Optional)` **without waiting for per-slice approvals**, but with frequent **checkpoints + commits**.
 
 ## Checkpoints (commit plan)
-- Checkpoint A: Room schema export + migration test scaffold
-- Checkpoint B: Package modularization by feature + import cleanup
-- Checkpoint C: Test improvements + Macrobenchmark scaffold + final verification
+- Checkpoint A: Task sets/presets + migration + active set selection
+- Checkpoint B: Import/Export JSON (SAF) + gesture spin
+- Checkpoint C: Completion tracking + streaks + final verification
 
 ---
 
-## Checkpoint A — Room schema hardening
+## Checkpoint A — Task sets / presets
 
-**Branch precondition:** `251224_feature_techdebt_v1`  
-**Source checklist item:** `docs/workflow/1_ALL_TASKS.md` → `3. Technical debt` → “Room schema hardening”  
+**Branch precondition:** `251224_feature_nicetohave_v1`  
+**Source checklist item:** `docs/workflow/1_ALL_TASKS.md` → `4. Nice-to-have` → “Task sets / presets”  
 
 ## Goal / Цель
-Harden Room database maintenance: schema export + migration testing scaffold.
+Add task sets with a few presets and the ability to select an active set.
 
 ## Acceptance Criteria / Критерии приёмки
-- Room exports schema JSON into versioned folder committed to VCS.
-- Migration test scaffolding compiles and can be run.
+- User can create/select task set and tasks are scoped to it.
+- Existing tasks are migrated into a default set (no data loss).
 
 ## Implementation Checklist
-- [x] Enable `exportSchema = true` and configure schema location
-- [x] Commit generated schemas
-- [x] Add migration test scaffold (androidTest)
-- [x] Build `:app:assembleDebug`
+- [ ] Add `TaskSet` model + Room tables/DAO + repositories/usecases
+- [ ] Add migration for existing tasks → default set
+- [ ] Add Settings UI to create/select active set + add presets
+- [ ] Build `:app:assembleDebug`
 
 ---
 

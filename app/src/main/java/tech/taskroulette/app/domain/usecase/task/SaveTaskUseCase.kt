@@ -11,6 +11,7 @@ class SaveTaskUseCase @Inject constructor(
 ) {
     suspend fun execute(
         existingTaskId: String?,
+        taskSetId: String,
         title: String,
         colorArgb: Int,
         weight: Int,
@@ -26,6 +27,7 @@ class SaveTaskUseCase @Inject constructor(
             title = normalizedTitle,
             colorArgb = colorArgb,
             weight = normalizedWeight,
+            taskSetId = taskSetId,
         )
 
         taskRepository.upsert(task)

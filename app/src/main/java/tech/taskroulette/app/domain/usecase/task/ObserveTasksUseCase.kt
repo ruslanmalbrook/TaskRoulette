@@ -8,7 +8,7 @@ import tech.taskroulette.app.domain.repository.TaskRepository
 class ObserveTasksUseCase @Inject constructor(
     private val taskRepository: TaskRepository,
 ) {
-    operator fun invoke(): Flow<List<Task>> = taskRepository.observeTasks()
+    operator fun invoke(taskSetId: String): Flow<List<Task>> = taskRepository.observeTasks(taskSetId)
 }
 
 

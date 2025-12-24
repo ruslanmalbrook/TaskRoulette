@@ -12,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import tech.taskroulette.app.data.local.db.TaskRouletteDatabase
 import tech.taskroulette.app.domain.model.Task
+import tech.taskroulette.app.domain.model.TaskSet
 
 @RunWith(AndroidJUnit4::class)
 class TaskRepositoryImplTest {
@@ -41,6 +42,7 @@ class TaskRepositoryImplTest {
                 title = "B task",
                 colorArgb = 0,
                 weight = 1,
+                taskSetId = TaskSet.DEFAULT_ID,
             ),
         )
         repository.upsert(
@@ -49,14 +51,15 @@ class TaskRepositoryImplTest {
                 title = "a task",
                 colorArgb = 0,
                 weight = 1,
+                taskSetId = TaskSet.DEFAULT_ID,
             ),
         )
 
-        val observed = repository.observeTasks().first()
+        val observed = repository.observeTasks(TaskSet.DEFAULT_ID).first()
         assertEquals(listOf("a task", "B task"), observed.map { it.title })
 
         repository.delete("1")
-        val remaining = repository.getTasks()
+        val remaining = repository.getTasks(TaskSet.DEFAULT_ID)
         assertEquals(listOf("B task"), remaining.map { it.title })
     }
 }

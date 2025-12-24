@@ -24,9 +24,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -154,6 +158,25 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
+                    .pointerInput(state.wheelTasks.isNotEmpty(), state.isSpinning) {
+                        if (state.wheelTasks.isEmpty() || state.isSpinning) return@pointerInput
+
+                        var totalDrag = Offset.Zero
+                        detectDragGestures(
+                            onDragEnd = {
+                                val distance = totalDrag.getDistance()
+                                // Reason: Thresholds for gesture spin: 100dp distance
+                                val distanceThreshold = 100.dp.toPx()
+
+                                if (distance > distanceThreshold) {
+                                    viewModel.onSpinClick(rotation.value)
+                                }
+                                totalDrag = Offset.Zero
+                            },
+                        ) { change, dragAmount ->
+                            totalDrag += dragAmount
+                        }
+                    }
                     .semantics {
                         // Reason: semantics {} is not a composable scope.
                         contentDescription = wheelA11yDescription
@@ -180,5 +203,6 @@ fun HomeScreen(
         }
     }
 }
+
 
 

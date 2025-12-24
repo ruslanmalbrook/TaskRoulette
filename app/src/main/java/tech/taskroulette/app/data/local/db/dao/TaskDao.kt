@@ -8,11 +8,11 @@ import tech.taskroulette.app.data.local.db.entity.TaskEntity
 
 @Dao
 interface TaskDao {
-    @Query("SELECT * FROM tasks ORDER BY title COLLATE NOCASE ASC")
-    fun observeTasks(): Flow<List<TaskEntity>>
+    @Query("SELECT * FROM tasks WHERE taskSetId = :taskSetId ORDER BY title COLLATE NOCASE ASC")
+    fun observeTasks(taskSetId: String): Flow<List<TaskEntity>>
 
-    @Query("SELECT * FROM tasks ORDER BY title COLLATE NOCASE ASC")
-    suspend fun getTasks(): List<TaskEntity>
+    @Query("SELECT * FROM tasks WHERE taskSetId = :taskSetId ORDER BY title COLLATE NOCASE ASC")
+    suspend fun getTasks(taskSetId: String): List<TaskEntity>
 
     @Upsert
     suspend fun upsert(task: TaskEntity): Unit
