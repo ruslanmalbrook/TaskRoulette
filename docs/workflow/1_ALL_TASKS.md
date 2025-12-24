@@ -128,17 +128,21 @@
 
 ### 4. Nice-to-have features (Optional)
 
-- [ ] **Completion tracking + streaks** _(In Work → branch=`251224_feature_nicetohave_v1`)_
+- [x] **Completion tracking + streaks** ✅ Done _(branch=`251224_feature_nicetohave_v1`)_
   - Mark task as done + longest streak calculation
+  - ProgressRepository with DataStore, streak calculation, UI in Settings and Result
 
-- [ ] **Task sets / presets**
+- [x] **Task sets / presets** ✅ Done
   - Наборы задач (например: “Morning”, “Work”, “Weekend”)
+  - TaskSet entity/DAO/repo, migration, active set selection in Settings
 
-- [ ] **Import / Export (offline)**
+- [x] **Import / Export (offline)** ✅ Done
   - JSON экспорт/импорт задач (без аккаунтов/облака)
+  - Storage Access Framework integration, import as new set or into active set
 
-- [ ] **Gesture spin (fling)**
+- [x] **Gesture spin (fling)** ✅ Done
   - Доп. способ запуска спина (кроме кнопки)
+  - Drag gesture detection on wheel with 100dp distance threshold
 
 - [ ] **Cosmetic IAP (one-time purchase)**
   - Unlock pack’и: themes/confetti/sounds (без подписок)
