@@ -20,6 +20,9 @@ import tech.taskroulette.app.domain.usecase.session.ObserveGameSessionsUseCase
 import tech.taskroulette.app.domain.usecase.settings.ObserveSettingsUseCase
 import tech.taskroulette.app.domain.usecase.stats.ComputeStatsUseCase
 import tech.taskroulette.app.domain.usecase.stats.Stats
+import tech.taskroulette.app.domain.usecase.export.ExportTasksUseCase
+import tech.taskroulette.app.domain.usecase.taskimport.ImportResult
+import tech.taskroulette.app.domain.usecase.taskimport.ImportTasksUseCase
 import tech.taskroulette.app.domain.usecase.taskset.InitializePresetTaskSetsUseCase
 import tech.taskroulette.app.domain.usecase.taskset.ObserveTaskSetsUseCase
 import tech.taskroulette.app.domain.usecase.taskset.SaveTaskSetUseCase
@@ -33,6 +36,8 @@ class SettingsViewModel @Inject constructor(
     private val computeStatsUseCase: ComputeStatsUseCase,
     private val saveTaskSetUseCase: SaveTaskSetUseCase,
     private val initializePresetTaskSetsUseCase: InitializePresetTaskSetsUseCase,
+    private val exportTasksUseCase: ExportTasksUseCase,
+    private val importTasksUseCase: ImportTasksUseCase,
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<SettingsUiState> = MutableStateFlow(SettingsUiState())
@@ -141,6 +146,55 @@ class SettingsViewModel @Inject constructor(
             onTaskSetDialogDismiss()
         }
     }
+
+    fun onExportClick(): Unit {
+        _state.update { current ->
+            current.copy(exportRequested = true)
+        }
+    }
+
+    fun onExportRequestHandled(): Unit {
+        _state.update { current -> current.copy(exportRequested = false) }
+    }
+
+    suspend fun exportToJson(taskSetId: String): String {
+        return exportTasksUseCase.execute(taskSetId)
+    }
+
+    fun onImportClick(): Unit {
+        _state.update { current ->
+            current.copy(importRequested = true)
+        }
+    }
+
+    fun onImportRequestHandled(): Unit {
+        _state.update { current -> current.copy(importRequested = false) }
+    }
+
+    suspend fun importFromJson(
+        jsonContent: String,
+        createNewSet: Boolean,
+    ): ImportResult {
+        val targetTaskSetId = if (createNewSet) null else _state.value.settings.activeTaskSetId
+        return importTasksUseCase.execute(
+            jsonContent = jsonContent,
+            targetTaskSetId = targetTaskSetId,
+            createNewSet = createNewSet,
+        )
+    }
+
+    fun onImportResult(result: ImportResult): Unit {
+        _state.update { current ->
+            current.copy(
+                importResult = result,
+                importRequested = false,
+            )
+        }
+    }
+
+    fun onImportResultDismissed(): Unit {
+        _state.update { current -> current.copy(importResult = null) }
+    }
 }
 
 data class SettingsUiState(
@@ -151,6 +205,9 @@ data class SettingsUiState(
     ),
     val taskSets: List<TaskSet> = emptyList(),
     val taskSetDialog: TaskSetDialogState? = null,
+    val exportRequested: Boolean = false,
+    val importRequested: Boolean = false,
+    val importResult: ImportResult? = null,
 )
 
 data class TaskSetDialogState(
