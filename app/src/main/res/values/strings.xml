@@ -37,6 +37,8 @@
     <string name="result_your_task_for_now">Your task for now</string>
     <string name="result_task_placeholder">—</string>
     <string name="result_back_to_home">Back to Home</string>
+    <string name="result_mark_done">Mark done</string>
+    <string name="result_marked_done">Task marked as done!</string>
 
     <!-- History -->
     <string name="history_title">History</string>
@@ -59,6 +61,9 @@
     <string name="settings_stats_title">Statistics</string>
     <string name="settings_stats_total">Total spins: %1$d</string>
     <string name="settings_stats_most_frequent">Most frequent: %1$s</string>
+    <string name="settings_progress_title">Progress</string>
+    <string name="settings_progress_current_streak">Current streak: %1$d days</string>
+    <string name="settings_progress_longest_streak">Longest streak: %1$d days</string>
     <string name="settings_task_sets_title">Task Sets</string>
     <string name="settings_task_sets_active">Active: %1$s</string>
     <string name="settings_task_sets_add">Add new set</string>

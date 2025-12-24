@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import tech.taskroulette.app.domain.model.ConfettiStyle
+import tech.taskroulette.app.domain.model.Progress
 import tech.taskroulette.app.domain.model.Settings
 import tech.taskroulette.app.domain.model.SpinSoundTheme
 import tech.taskroulette.app.domain.model.TaskSet
@@ -23,6 +24,7 @@ import tech.taskroulette.app.domain.usecase.stats.Stats
 import tech.taskroulette.app.domain.usecase.export.ExportTasksUseCase
 import tech.taskroulette.app.domain.usecase.taskimport.ImportResult
 import tech.taskroulette.app.domain.usecase.taskimport.ImportTasksUseCase
+import tech.taskroulette.app.domain.usecase.progress.ObserveProgressUseCase
 import tech.taskroulette.app.domain.usecase.taskset.InitializePresetTaskSetsUseCase
 import tech.taskroulette.app.domain.usecase.taskset.ObserveTaskSetsUseCase
 import tech.taskroulette.app.domain.usecase.taskset.SaveTaskSetUseCase
@@ -32,6 +34,7 @@ class SettingsViewModel @Inject constructor(
     observeSettingsUseCase: ObserveSettingsUseCase,
     observeGameSessionsUseCase: ObserveGameSessionsUseCase,
     observeTaskSetsUseCase: ObserveTaskSetsUseCase,
+    observeProgressUseCase: ObserveProgressUseCase,
     private val settingsRepository: SettingsRepository,
     private val computeStatsUseCase: ComputeStatsUseCase,
     private val saveTaskSetUseCase: SaveTaskSetUseCase,
@@ -61,6 +64,12 @@ class SettingsViewModel @Inject constructor(
         observeTaskSetsUseCase()
             .onEach { taskSets ->
                 _state.update { current -> current.copy(taskSets = taskSets) }
+            }
+            .launchIn(viewModelScope)
+
+        observeProgressUseCase()
+            .onEach { progress ->
+                _state.update { current -> current.copy(progress = progress) }
             }
             .launchIn(viewModelScope)
 
@@ -202,6 +211,11 @@ data class SettingsUiState(
     val stats: Stats = Stats(
         totalSpins = 0,
         mostFrequentTaskTitle = null,
+    ),
+    val progress: Progress = Progress(
+        currentStreak = 0,
+        longestStreak = 0,
+        lastCompletionDateEpochMillis = null,
     ),
     val taskSets: List<TaskSet> = emptyList(),
     val taskSetDialog: TaskSetDialogState? = null,

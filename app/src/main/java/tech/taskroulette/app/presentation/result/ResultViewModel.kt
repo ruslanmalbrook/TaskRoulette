@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import tech.taskroulette.app.domain.model.ConfettiStyle
 import tech.taskroulette.app.domain.model.Settings
+import tech.taskroulette.app.domain.usecase.progress.MarkTaskCompletedUseCase
 import tech.taskroulette.app.domain.usecase.session.GetGameSessionUseCase
 import tech.taskroulette.app.domain.usecase.settings.ObserveSettingsUseCase
 import tech.taskroulette.app.presentation.navigation.TaskRouletteRoute
@@ -23,6 +24,7 @@ class ResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getGameSessionUseCase: GetGameSessionUseCase,
     observeSettingsUseCase: ObserveSettingsUseCase,
+    private val markTaskCompletedUseCase: MarkTaskCompletedUseCase,
 ) : ViewModel() {
 
     private val sessionId: String? = savedStateHandle[TaskRouletteRoute.Result.ARG_SESSION_ID]
@@ -59,6 +61,13 @@ class ResultViewModel @Inject constructor(
             }
         }
     }
+
+    fun onMarkDoneClick(): Unit {
+        viewModelScope.launch {
+            markTaskCompletedUseCase.execute()
+            _state.update { current -> current.copy(isMarkedDone = true) }
+        }
+    }
 }
 
 data class ResultUiState(
@@ -67,6 +76,7 @@ data class ResultUiState(
     val selectedTaskTitle: String? = null,
     val selectedTaskColorArgb: Int? = null,
     val confettiStyle: ConfettiStyle = Settings.Default.confettiStyle,
+    val isMarkedDone: Boolean = false,
 )
 
 

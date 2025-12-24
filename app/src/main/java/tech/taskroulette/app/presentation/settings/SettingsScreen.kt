@@ -196,6 +196,19 @@ fun SettingsScreen(
             )
 
             Text(
+                text = stringResource(id = R.string.settings_progress_title),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = stringResource(id = R.string.settings_progress_current_streak, state.progress.currentStreak),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                text = stringResource(id = R.string.settings_progress_longest_streak, state.progress.longestStreak),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            Text(
                 text = stringResource(id = R.string.settings_task_sets_title),
                 style = MaterialTheme.typography.titleMedium,
             )

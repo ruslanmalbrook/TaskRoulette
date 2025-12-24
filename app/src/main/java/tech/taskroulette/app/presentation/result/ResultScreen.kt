@@ -106,6 +106,21 @@ fun ResultScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
+                if (!state.isMarkedDone) {
+                    OutlinedButton(
+                        onClick = viewModel::onMarkDoneClick,
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(text = stringResource(id = R.string.result_mark_done))
+                    }
+                } else {
+                    Text(
+                        text = stringResource(id = R.string.result_marked_done),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
+
                 OutlinedButton(onClick = onBackToHome) { Text(text = stringResource(id = R.string.result_back_to_home)) }
                 OutlinedButton(onClick = onHistoryClick) { Text(text = stringResource(id = R.string.home_history)) }
             }
