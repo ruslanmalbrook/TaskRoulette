@@ -5,6 +5,7 @@ data class Settings(
     val isHapticsEnabled: Boolean,
     val spinSoundTheme: SpinSoundTheme,
     val confettiStyle: ConfettiStyle,
+    val activeTaskSetId: String,
 ) {
     companion object {
         val Default: Settings = Settings(
@@ -12,6 +13,7 @@ data class Settings(
             isHapticsEnabled = true,
             spinSoundTheme = SpinSoundTheme.Classic,
             confettiStyle = ConfettiStyle.Classic,
+            activeTaskSetId = TaskSet.DEFAULT_ID,
         )
     }
 }

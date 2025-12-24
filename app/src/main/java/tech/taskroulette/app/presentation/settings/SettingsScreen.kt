@@ -6,8 +6,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
@@ -24,6 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tech.taskroulette.app.R
 import tech.taskroulette.app.domain.model.ConfettiStyle
 import tech.taskroulette.app.domain.model.SpinSoundTheme
+import tech.taskroulette.app.domain.model.TaskSet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -133,7 +138,72 @@ fun SettingsScreen(
                 ),
                 style = MaterialTheme.typography.bodyMedium,
             )
+
+            Text(
+                text = stringResource(id = R.string.settings_task_sets_title),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            val activeTaskSetName = state.taskSets
+                .firstOrNull { it.id == state.settings.activeTaskSetId }
+                ?.name
+                ?: stringResource(id = R.string.placeholder_dash)
+            Text(
+                text = stringResource(id = R.string.settings_task_sets_active, activeTaskSetName),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            if (state.taskSets.isEmpty()) {
+                Text(
+                    text = stringResource(id = R.string.settings_task_sets_empty),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            } else {
+                state.taskSets.forEach { taskSet ->
+                    TaskSetRow(
+                        taskSet = taskSet,
+                        isSelected = taskSet.id == state.settings.activeTaskSetId,
+                        onSelect = viewModel::onTaskSetSelect,
+                    )
+                }
+            }
+            OutlinedButton(
+                onClick = viewModel::onAddTaskSetClick,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(text = stringResource(id = R.string.settings_task_sets_add))
+            }
         }
+    }
+
+    state.taskSetDialog?.let { dialog ->
+        AlertDialog(
+            onDismissRequest = viewModel::onTaskSetDialogDismiss,
+            title = { Text(text = stringResource(id = R.string.settings_task_sets_add_dialog_title)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedTextField(
+                        value = dialog.name,
+                        onValueChange = viewModel::onTaskSetDialogNameChange,
+                        label = { Text(text = stringResource(id = R.string.settings_task_sets_name_label)) },
+                        isError = dialog.isNameError,
+                        supportingText = if (dialog.isNameError) {
+                            { Text(text = stringResource(id = R.string.settings_task_sets_name_error)) }
+                        } else null,
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            },
+            confirmButton = {
+                Button(onClick = viewModel::onTaskSetDialogSaveClick) {
+                    Text(text = stringResource(id = R.string.action_save))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = viewModel::onTaskSetDialogDismiss) {
+                    Text(text = stringResource(id = R.string.action_cancel))
+                }
+            },
+        )
     }
 }
 
@@ -184,5 +254,29 @@ private fun ConfettiStyleRow(
         )
     }
 }
+
+@Composable
+private fun TaskSetRow(
+    taskSet: TaskSet,
+    isSelected: Boolean,
+    onSelect: (TaskSet) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        RadioButton(
+            selected = isSelected,
+            onClick = { onSelect(taskSet) },
+        )
+        Text(
+            text = taskSet.name,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+}
+
 
 

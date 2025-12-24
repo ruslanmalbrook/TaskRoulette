@@ -8,9 +8,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import tech.taskroulette.app.data.local.db.Migrations
 import tech.taskroulette.app.data.local.db.TaskRouletteDatabase
 import tech.taskroulette.app.data.local.db.dao.GameSessionDao
 import tech.taskroulette.app.data.local.db.dao.TaskDao
+import tech.taskroulette.app.data.local.db.dao.TaskSetDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -25,12 +27,19 @@ object DatabaseModule {
             context,
             TaskRouletteDatabase::class.java,
             "taskroulette.db",
-        ).build()
+        )
+            .addMigrations(Migrations.MIGRATION_1_2)
+            .build()
 
     @Provides
     fun provideTaskDao(
         database: TaskRouletteDatabase,
     ): TaskDao = database.taskDao()
+
+    @Provides
+    fun provideTaskSetDao(
+        database: TaskRouletteDatabase,
+    ): TaskSetDao = database.taskSetDao()
 
     @Provides
     fun provideGameSessionDao(

@@ -4,13 +4,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -28,6 +32,7 @@ import tech.taskroulette.app.domain.usecase.spin.SpinPlan
 import tech.taskroulette.app.domain.usecase.task.ObserveTasksUseCase
 import tech.taskroulette.app.domain.wheel.WheelSector
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     observeTasksUseCase: ObserveTasksUseCase,
@@ -47,7 +52,16 @@ class HomeViewModel @Inject constructor(
     val events: SharedFlow<HomeEvent> = _events.asSharedFlow()
 
     init {
-        observeTasksUseCase()
+        observeSettingsUseCase()
+            .onEach { settings ->
+                _state.update { current -> current.copy(settings = settings) }
+            }
+            .launchIn(viewModelScope)
+
+        observeSettingsUseCase()
+            .map { it.activeTaskSetId }
+            .distinctUntilChanged()
+            .flatMapLatest { taskSetId -> observeTasksUseCase(taskSetId) }
             .onEach { tasks ->
                 _state.update { current ->
                     if (current.replaySessionId != null) {
@@ -60,12 +74,6 @@ class HomeViewModel @Inject constructor(
                         )
                     }
                 }
-            }
-            .launchIn(viewModelScope)
-
-        observeSettingsUseCase()
-            .onEach { settings ->
-                _state.update { current -> current.copy(settings = settings) }
             }
             .launchIn(viewModelScope)
 
@@ -94,6 +102,7 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch {
             val session = getGameSessionUseCase(sessionId) ?: return@launch
+            val activeTaskSetId = _state.value.settings.activeTaskSetId
             val replayTasks = session.tasksSnapshot
                 .sortedBy { it.orderIndex }
                 .map { snap ->
@@ -102,6 +111,7 @@ class HomeViewModel @Inject constructor(
                         title = snap.title,
                         colorArgb = snap.colorArgb,
                         weight = snap.weight,
+                        taskSetId = activeTaskSetId,
                     )
                 }
 

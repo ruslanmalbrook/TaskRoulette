@@ -4,10 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -16,10 +20,13 @@ import tech.taskroulette.app.domain.usecase.task.DeleteTaskUseCase
 import tech.taskroulette.app.domain.usecase.task.GenerateTaskColorUseCase
 import tech.taskroulette.app.domain.usecase.task.ObserveTasksUseCase
 import tech.taskroulette.app.domain.usecase.task.SaveTaskUseCase
+import tech.taskroulette.app.domain.usecase.settings.ObserveSettingsUseCase
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class TaskEditorViewModel @Inject constructor(
     observeTasksUseCase: ObserveTasksUseCase,
+    observeSettingsUseCase: ObserveSettingsUseCase,
     private val saveTaskUseCase: SaveTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val generateTaskColorUseCase: GenerateTaskColorUseCase,
@@ -29,11 +36,15 @@ class TaskEditorViewModel @Inject constructor(
     val state: StateFlow<TaskEditorUiState> = _state.asStateFlow()
 
     init {
-        observeTasksUseCase()
+        observeSettingsUseCase()
+            .map { it.activeTaskSetId }
+            .distinctUntilChanged()
+            .onEach { taskSetId ->
+                _state.update { current -> current.copy(activeTaskSetId = taskSetId) }
+            }
+            .flatMapLatest { taskSetId -> observeTasksUseCase(taskSetId) }
             .onEach { tasks ->
-                _state.update { current ->
-                    current.copy(tasks = tasks)
-                }
+                _state.update { current -> current.copy(tasks = tasks) }
             }
             .launchIn(viewModelScope)
     }
@@ -44,6 +55,7 @@ class TaskEditorViewModel @Inject constructor(
             current.copy(
                 editDialog = TaskEditDialogState(
                     existingTaskId = null,
+                    taskSetId = current.activeTaskSetId,
                     title = "",
                     weight = 1,
                     colorArgb = color,
@@ -58,6 +70,7 @@ class TaskEditorViewModel @Inject constructor(
             current.copy(
                 editDialog = TaskEditDialogState(
                     existingTaskId = task.id,
+                    taskSetId = task.taskSetId,
                     title = task.title,
                     weight = task.weight,
                     colorArgb = task.colorArgb,
@@ -122,6 +135,7 @@ class TaskEditorViewModel @Inject constructor(
         viewModelScope.launch {
             saveTaskUseCase.execute(
                 existingTaskId = dialog.existingTaskId,
+                taskSetId = dialog.taskSetId,
                 title = dialog.title,
                 colorArgb = dialog.colorArgb,
                 weight = dialog.weight,
@@ -136,10 +150,12 @@ class TaskEditorViewModel @Inject constructor(
 data class TaskEditorUiState(
     val tasks: List<Task> = emptyList(),
     val editDialog: TaskEditDialogState? = null,
+    val activeTaskSetId: String = tech.taskroulette.app.domain.model.TaskSet.DEFAULT_ID,
 )
 
 data class TaskEditDialogState(
     val existingTaskId: String?,
+    val taskSetId: String,
     val title: String,
     val weight: Int,
     val colorArgb: Int,

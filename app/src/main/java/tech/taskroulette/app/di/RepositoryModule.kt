@@ -8,9 +8,11 @@ import javax.inject.Singleton
 import tech.taskroulette.app.data.repository.GameSessionRepositoryImpl
 import tech.taskroulette.app.data.repository.SettingsRepositoryImpl
 import tech.taskroulette.app.data.repository.TaskRepositoryImpl
+import tech.taskroulette.app.data.repository.TaskSetRepositoryImpl
 import tech.taskroulette.app.domain.repository.GameSessionRepository
 import tech.taskroulette.app.domain.repository.SettingsRepository
 import tech.taskroulette.app.domain.repository.TaskRepository
+import tech.taskroulette.app.domain.repository.TaskSetRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -27,6 +29,10 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindSettingsRepository(impl: SettingsRepositoryImpl): SettingsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindTaskSetRepository(impl: TaskSetRepositoryImpl): TaskSetRepository
 }
 
 

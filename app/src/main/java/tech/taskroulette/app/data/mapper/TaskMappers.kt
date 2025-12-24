@@ -8,6 +8,7 @@ fun TaskEntity.toDomain(): Task = Task(
     title = title,
     colorArgb = colorArgb,
     weight = weight,
+    taskSetId = taskSetId,
 )
 
 fun Task.toEntity(): TaskEntity = TaskEntity(
@@ -15,6 +16,7 @@ fun Task.toEntity(): TaskEntity = TaskEntity(
     title = title,
     colorArgb = colorArgb,
     weight = weight,
+    taskSetId = taskSetId,
 )
 
 

@@ -5,6 +5,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Test
 import tech.taskroulette.app.domain.IdGenerator
 import tech.taskroulette.app.domain.model.Task
+import tech.taskroulette.app.domain.model.TaskSet
 
 class CreateGameSessionUseCaseTest {
 
@@ -29,8 +30,8 @@ class CreateGameSessionUseCaseTest {
         )
 
         val tasks = listOf(
-            Task(id = "t1", title = "Task 1", colorArgb = 123, weight = 1),
-            Task(id = "t2", title = "Task 2", colorArgb = 456, weight = 2),
+            Task(id = "t1", title = "Task 1", colorArgb = 123, weight = 1, taskSetId = TaskSet.DEFAULT_ID),
+            Task(id = "t2", title = "Task 2", colorArgb = 456, weight = 2, taskSetId = TaskSet.DEFAULT_ID),
         )
 
         val session = useCase.createFromTasks(
@@ -75,7 +76,7 @@ class CreateGameSessionUseCaseTest {
         )
 
         val tasks = listOf(
-            Task(id = "t1", title = "Task 1", colorArgb = 0, weight = 1),
+            Task(id = "t1", title = "Task 1", colorArgb = 0, weight = 1, taskSetId = TaskSet.DEFAULT_ID),
         )
 
         useCase.createFromTasks(

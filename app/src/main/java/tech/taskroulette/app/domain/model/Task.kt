@@ -5,6 +5,7 @@ data class Task(
     val title: String,
     val colorArgb: Int,
     val weight: Int,
+    val taskSetId: String,
 )
 
 

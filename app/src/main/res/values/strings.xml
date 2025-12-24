@@ -59,6 +59,13 @@
     <string name="settings_stats_title">Statistics</string>
     <string name="settings_stats_total">Total spins: %1$d</string>
     <string name="settings_stats_most_frequent">Most frequent: %1$s</string>
+    <string name="settings_task_sets_title">Task Sets</string>
+    <string name="settings_task_sets_active">Active: %1$s</string>
+    <string name="settings_task_sets_add">Add new set</string>
+    <string name="settings_task_sets_add_dialog_title">New task set</string>
+    <string name="settings_task_sets_name_label">Name</string>
+    <string name="settings_task_sets_name_error">Name is required.</string>
+    <string name="settings_task_sets_empty">No task sets yet.</string>
 
     <!-- Generic placeholders -->
     <string name="placeholder_dash">—</string>

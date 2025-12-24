@@ -4,9 +4,9 @@ import kotlinx.coroutines.flow.Flow
 import tech.taskroulette.app.domain.model.Task
 
 interface TaskRepository {
-    fun observeTasks(): Flow<List<Task>>
+    fun observeTasks(taskSetId: String): Flow<List<Task>>
 
-    suspend fun getTasks(): List<Task>
+    suspend fun getTasks(taskSetId: String): List<Task>
 
     suspend fun upsert(task: Task): Unit
 

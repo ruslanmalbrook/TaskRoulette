@@ -13,10 +13,10 @@ class TaskRepositoryImpl @Inject constructor(
     private val taskDao: TaskDao,
 ) : TaskRepository {
 
-    override fun observeTasks(): Flow<List<Task>> =
-        taskDao.observeTasks().map { entities -> entities.map { it.toDomain() } }
+    override fun observeTasks(taskSetId: String): Flow<List<Task>> =
+        taskDao.observeTasks(taskSetId).map { entities -> entities.map { it.toDomain() } }
 
-    override suspend fun getTasks(): List<Task> = taskDao.getTasks().map { it.toDomain() }
+    override suspend fun getTasks(taskSetId: String): List<Task> = taskDao.getTasks(taskSetId).map { it.toDomain() }
 
     override suspend fun upsert(task: Task): Unit = taskDao.upsert(task.toEntity())
 
