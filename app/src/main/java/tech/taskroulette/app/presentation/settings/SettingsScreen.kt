@@ -7,12 +7,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -21,13 +29,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import tech.taskroulette.app.presentation.components.GradientTopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -95,179 +106,214 @@ fun SettingsScreen(
     }
 
     Scaffold(
+        containerColor = Transparent,
         topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.settings_title)) },
-                navigationIcon = {
-                    TextButton(onClick = onBack) { Text(text = stringResource(id = R.string.action_back)) }
-                },
-            )
+            GradientTopAppBar(title = stringResource(id = R.string.settings_title))
         },
     ) { padding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(horizontal = 20.dp)
+                .padding(top = 16.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(text = stringResource(id = R.string.settings_sound))
-                Switch(
-                    checked = state.settings.isSoundEnabled,
-                    onCheckedChange = viewModel::onSoundEnabledChange,
-                )
+            item {
+                SettingsSectionCard(
+                    title = stringResource(id = R.string.settings_sound),
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.settings_sound),
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
+                        Switch(
+                            checked = state.settings.isSoundEnabled,
+                            onCheckedChange = viewModel::onSoundEnabledChange,
+                        )
+                    }
+                    
+                    if (state.settings.isSoundEnabled) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Text(
+                            text = stringResource(id = R.string.settings_sound_theme),
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        SoundThemeRow(
+                            theme = SpinSoundTheme.Classic,
+                            selected = state.settings.spinSoundTheme,
+                            onSelect = viewModel::onSoundThemeChange,
+                            label = stringResource(id = R.string.settings_sound_theme_classic),
+                        )
+                        SoundThemeRow(
+                            theme = SpinSoundTheme.Soft,
+                            selected = state.settings.spinSoundTheme,
+                            onSelect = viewModel::onSoundThemeChange,
+                            label = stringResource(id = R.string.settings_sound_theme_soft),
+                        )
+                        SoundThemeRow(
+                            theme = SpinSoundTheme.Arcade,
+                            selected = state.settings.spinSoundTheme,
+                            onSelect = viewModel::onSoundThemeChange,
+                            label = stringResource(id = R.string.settings_sound_theme_arcade),
+                        )
+                    }
+                }
             }
-
-            Text(
-                text = stringResource(id = R.string.settings_sound_theme),
-                style = MaterialTheme.typography.titleMedium,
-            )
-            SoundThemeRow(
-                theme = SpinSoundTheme.Classic,
-                selected = state.settings.spinSoundTheme,
-                onSelect = viewModel::onSoundThemeChange,
-                label = stringResource(id = R.string.settings_sound_theme_classic),
-            )
-            SoundThemeRow(
-                theme = SpinSoundTheme.Soft,
-                selected = state.settings.spinSoundTheme,
-                onSelect = viewModel::onSoundThemeChange,
-                label = stringResource(id = R.string.settings_sound_theme_soft),
-            )
-            SoundThemeRow(
-                theme = SpinSoundTheme.Arcade,
-                selected = state.settings.spinSoundTheme,
-                onSelect = viewModel::onSoundThemeChange,
-                label = stringResource(id = R.string.settings_sound_theme_arcade),
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(text = stringResource(id = R.string.settings_haptics))
-                Switch(
-                    checked = state.settings.isHapticsEnabled,
-                    onCheckedChange = viewModel::onHapticsEnabledChange,
-                )
+            
+            item {
+                SettingsSectionCard(
+                    title = stringResource(id = R.string.settings_haptics),
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.settings_haptics),
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
+                        Switch(
+                            checked = state.settings.isHapticsEnabled,
+                            onCheckedChange = viewModel::onHapticsEnabledChange,
+                        )
+                    }
+                }
             }
-
-            Text(
-                text = stringResource(id = R.string.settings_confetti_style),
-                style = MaterialTheme.typography.titleMedium,
-            )
-            ConfettiStyleRow(
-                style = ConfettiStyle.Classic,
-                selected = state.settings.confettiStyle,
-                onSelect = viewModel::onConfettiStyleChange,
-                label = stringResource(id = R.string.settings_confetti_style_classic),
-            )
-            ConfettiStyleRow(
-                style = ConfettiStyle.Pop,
-                selected = state.settings.confettiStyle,
-                onSelect = viewModel::onConfettiStyleChange,
-                label = stringResource(id = R.string.settings_confetti_style_pop),
-            )
-            ConfettiStyleRow(
-                style = ConfettiStyle.Streamers,
-                selected = state.settings.confettiStyle,
-                onSelect = viewModel::onConfettiStyleChange,
-                label = stringResource(id = R.string.settings_confetti_style_streamers),
-            )
-
-            Text(
-                text = stringResource(id = R.string.settings_stats_title),
-                style = MaterialTheme.typography.titleMedium,
-            )
-            Text(
-                text = stringResource(id = R.string.settings_stats_total, state.stats.totalSpins),
-                style = MaterialTheme.typography.bodyMedium,
-            )
-            Text(
-                text = stringResource(
-                    id = R.string.settings_stats_most_frequent,
-                    state.stats.mostFrequentTaskTitle ?: stringResource(id = R.string.placeholder_dash),
-                ),
-                style = MaterialTheme.typography.bodyMedium,
-            )
-
-            Text(
-                text = stringResource(id = R.string.settings_progress_title),
-                style = MaterialTheme.typography.titleMedium,
-            )
-            Text(
-                text = stringResource(id = R.string.settings_progress_current_streak, state.progress.currentStreak),
-                style = MaterialTheme.typography.bodyMedium,
-            )
-            Text(
-                text = stringResource(id = R.string.settings_progress_longest_streak, state.progress.longestStreak),
-                style = MaterialTheme.typography.bodyMedium,
-            )
-
-            Text(
-                text = stringResource(id = R.string.settings_task_sets_title),
-                style = MaterialTheme.typography.titleMedium,
-            )
-            val activeTaskSetName = state.taskSets
-                .firstOrNull { it.id == state.settings.activeTaskSetId }
-                ?.name
-                ?: stringResource(id = R.string.placeholder_dash)
-            Text(
-                text = stringResource(id = R.string.settings_task_sets_active, activeTaskSetName),
-                style = MaterialTheme.typography.bodyMedium,
-            )
-            if (state.taskSets.isEmpty()) {
-                Text(
-                    text = stringResource(id = R.string.settings_task_sets_empty),
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-            } else {
-                state.taskSets.forEach { taskSet ->
-                    TaskSetRow(
-                        taskSet = taskSet,
-                        isSelected = taskSet.id == state.settings.activeTaskSetId,
-                        onSelect = viewModel::onTaskSetSelect,
+            
+            item {
+                SettingsSectionCard(
+                    title = stringResource(id = R.string.settings_confetti_style),
+                ) {
+                    ConfettiStyleRow(
+                        style = ConfettiStyle.Classic,
+                        selected = state.settings.confettiStyle,
+                        onSelect = viewModel::onConfettiStyleChange,
+                        label = stringResource(id = R.string.settings_confetti_style_classic),
+                    )
+                    ConfettiStyleRow(
+                        style = ConfettiStyle.Pop,
+                        selected = state.settings.confettiStyle,
+                        onSelect = viewModel::onConfettiStyleChange,
+                        label = stringResource(id = R.string.settings_confetti_style_pop),
+                    )
+                    ConfettiStyleRow(
+                        style = ConfettiStyle.Streamers,
+                        selected = state.settings.confettiStyle,
+                        onSelect = viewModel::onConfettiStyleChange,
+                        label = stringResource(id = R.string.settings_confetti_style_streamers),
                     )
                 }
             }
-            OutlinedButton(
-                onClick = viewModel::onAddTaskSetClick,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(text = stringResource(id = R.string.settings_task_sets_add))
+            
+            item {
+                SettingsSectionCard(
+                    title = stringResource(id = R.string.settings_stats_title),
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.settings_stats_total, state.stats.totalSpins),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    Text(
+                        text = stringResource(
+                            id = R.string.settings_stats_most_frequent,
+                            state.stats.mostFrequentTaskTitle ?: stringResource(id = R.string.placeholder_dash),
+                        ),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
             }
-
-            Text(
-                text = stringResource(id = R.string.settings_import_export_title),
-                style = MaterialTheme.typography.titleMedium,
-            )
-            OutlinedButton(
-                onClick = {
-                    val taskSetName = state.taskSets
+            
+            item {
+                SettingsSectionCard(
+                    title = stringResource(id = R.string.settings_progress_title),
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.settings_progress_current_streak, state.progress.currentStreak),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    Text(
+                        text = stringResource(id = R.string.settings_progress_longest_streak, state.progress.longestStreak),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+            }
+            
+            item {
+                SettingsSectionCard(
+                    title = stringResource(id = R.string.settings_task_sets_title),
+                ) {
+                    val activeTaskSetName = state.taskSets
                         .firstOrNull { it.id == state.settings.activeTaskSetId }
                         ?.name
-                        ?: "tasks"
-                    exportLauncher.launch("taskroulette_${taskSetName}_${System.currentTimeMillis()}.json")
-                },
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(text = stringResource(id = R.string.settings_export))
+                        ?: stringResource(id = R.string.placeholder_dash)
+                    Text(
+                        text = stringResource(id = R.string.settings_task_sets_active, activeTaskSetName),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    if (state.taskSets.isEmpty()) {
+                        Text(
+                            text = stringResource(id = R.string.settings_task_sets_empty),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    } else {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        state.taskSets.forEach { taskSet ->
+                            TaskSetRow(
+                                taskSet = taskSet,
+                                isSelected = taskSet.id == state.settings.activeTaskSetId,
+                                onSelect = viewModel::onTaskSetSelect,
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    FilledTonalButton(
+                        onClick = viewModel::onAddTaskSetClick,
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(text = stringResource(id = R.string.settings_task_sets_add))
+                    }
+                }
             }
-            OutlinedButton(
-                onClick = {
-                    importLauncher.launch(arrayOf("application/json", "text/*"))
-                },
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(text = stringResource(id = R.string.settings_import))
+            
+            item {
+                SettingsSectionCard(
+                    title = stringResource(id = R.string.settings_import_export_title),
+                ) {
+                    FilledTonalButton(
+                        onClick = {
+                            val taskSetName = state.taskSets
+                                .firstOrNull { it.id == state.settings.activeTaskSetId }
+                                ?.name
+                                ?: "tasks"
+                            exportLauncher.launch("taskroulette_${taskSetName}_${System.currentTimeMillis()}.json")
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(text = stringResource(id = R.string.settings_export))
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    FilledTonalButton(
+                        onClick = {
+                            importLauncher.launch(arrayOf("application/json", "text/*"))
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(text = stringResource(id = R.string.settings_import))
+                    }
+                }
             }
         }
     }
-
 
     state.importResult?.let { result ->
         AlertDialog(

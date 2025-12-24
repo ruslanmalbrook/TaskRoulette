@@ -16,8 +16,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -25,13 +28,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import tech.taskroulette.app.presentation.components.GradientTopAppBar
+import tech.taskroulette.app.presentation.components.TaskCard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -50,19 +57,25 @@ fun TaskEditorScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     Scaffold(
+        containerColor = Transparent,
         topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.task_editor_title)) },
-                navigationIcon = {
-                    TextButton(onClick = onBack) { Text(text = stringResource(id = R.string.action_back)) }
-                },
-            )
+            GradientTopAppBar(title = stringResource(id = R.string.task_editor_title))
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = viewModel::onAddTaskClick,
+                shape = CircleShape,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                elevation = FloatingActionButtonDefaults.elevation(
+                    defaultElevation = 6.dp,
+                    pressedElevation = 12.dp,
+                ),
             ) {
-                Text(text = stringResource(id = R.string.task_editor_add))
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(id = R.string.task_editor_add),
+                )
             }
         },
     ) { padding ->
@@ -70,26 +83,34 @@ fun TaskEditorScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(horizontal = 20.dp)
+                .padding(top = 16.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             if (state.tasks.isEmpty()) {
-                Text(
-                    text = stringResource(id = R.string.task_editor_empty),
-                    style = MaterialTheme.typography.bodyLarge,
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.task_editor_empty),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             } else {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     items(
                         items = state.tasks,
                         key = { it.id },
                     ) { task ->
-                        TaskRow(
+                        TaskCard(
                             task = task,
-                            onEditClick = { viewModel.onEditTaskClick(task) },
-                            onDeleteClick = { viewModel.onDeleteTaskClick(task.id) },
+                            onClick = { viewModel.onEditTaskClick(task) },
+                            onDelete = { viewModel.onDeleteTaskClick(task.id) },
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     }
                 }
@@ -107,50 +128,6 @@ fun TaskEditorScreen(
             onColorChange = viewModel::onDialogColorChange,
             onSave = viewModel::onDialogSaveClick,
         )
-    }
-}
-
-@Composable
-private fun TaskRow(
-    task: Task,
-    onEditClick: () -> Unit,
-    onDeleteClick: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.medium)
-            .clickable(onClick = onEditClick)
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        Box(
-            modifier = Modifier
-                .size(16.dp)
-                .clip(MaterialTheme.shapes.small)
-                .background(Color(task.colorArgb)),
-        )
-
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(2.dp),
-        ) {
-            Text(
-                text = task.title,
-                style = MaterialTheme.typography.bodyLarge,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Text(
-                text = stringResource(id = R.string.task_editor_weight_value, task.weight),
-                style = MaterialTheme.typography.bodySmall,
-            )
-        }
-
-        OutlinedButton(onClick = onDeleteClick) {
-            Text(text = stringResource(id = R.string.action_delete))
-        }
     }
 }
 

@@ -3,20 +3,38 @@ package tech.taskroulette.app.presentation.home
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.unit.dp
+import tech.taskroulette.app.presentation.components.GradientButton
+import tech.taskroulette.app.presentation.components.GradientTopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -25,7 +43,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
@@ -134,30 +151,63 @@ fun HomeScreen(
     }
 
     Scaffold(
+        containerColor = Transparent,
         topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.app_name)) },
-            )
+            GradientTopAppBar(title = stringResource(id = R.string.app_name))
         },
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(horizontal = 20.dp)
+                .padding(top = 16.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            state.activeTaskTitle?.let { title ->
-                Text(
-                    text = stringResource(id = R.string.home_active_task, title),
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+            AnimatedVisibility(
+                visible = state.activeTaskTitle != null,
+                enter = fadeIn(),
+                exit = fadeOut(),
+            ) {
+                state.activeTaskTitle?.let { title ->
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        ),
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(12.dp)
+                                    .clip(RoundedCornerShape(6.dp))
+                                    .background(MaterialTheme.colorScheme.primary),
+                            )
+                            Text(
+                                text = stringResource(id = R.string.home_active_task, title),
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            )
+                        }
+                    }
+                }
             }
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                    .padding(8.dp)
                     .pointerInput(state.wheelTasks.isNotEmpty(), state.isSpinning) {
                         if (state.wheelTasks.isEmpty() || state.isSpinning) return@pointerInput
 
@@ -190,16 +240,36 @@ fun HomeScreen(
                 )
             }
 
-            Button(
+            GradientButton(
                 onClick = { viewModel.onSpinClick(rotation.value) },
                 enabled = state.wheelTasks.isNotEmpty() && !state.isSpinning,
-            ) {
-                Text(text = stringResource(id = R.string.home_spin))
-            }
+                text = stringResource(id = R.string.home_spin),
+                modifier = Modifier.height(56.dp),
+            )
 
-            OutlinedButton(onClick = onEditTasksClick) { Text(text = stringResource(id = R.string.home_edit_tasks)) }
-            OutlinedButton(onClick = onHistoryClick) { Text(text = stringResource(id = R.string.home_history)) }
-            OutlinedButton(onClick = onSettingsClick) { Text(text = stringResource(id = R.string.home_settings)) }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                FilledTonalButton(
+                    onClick = onEditTasksClick,
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text(text = stringResource(id = R.string.home_edit_tasks))
+                }
+                FilledTonalButton(
+                    onClick = onHistoryClick,
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text(text = stringResource(id = R.string.home_history))
+                }
+                FilledTonalButton(
+                    onClick = onSettingsClick,
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text(text = stringResource(id = R.string.home_settings))
+                }
+            }
         }
     }
 }

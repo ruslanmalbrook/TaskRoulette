@@ -1,5 +1,8 @@
 package tech.taskroulette.app.presentation.result
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,20 +14,26 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Transparent
+import tech.taskroulette.app.presentation.components.GradientButton
+import tech.taskroulette.app.presentation.components.GradientTopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -59,13 +68,9 @@ fun ResultScreen(
     }
 
     Scaffold(
+        containerColor = Transparent,
         topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.result_title)) },
-                navigationIcon = {
-                    TextButton(onClick = onBack) { Text(text = stringResource(id = R.string.action_back)) }
-                },
-            )
+            GradientTopAppBar(title = stringResource(id = R.string.result_title))
         },
     ) { padding ->
         Box(
@@ -76,53 +81,100 @@ fun ResultScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 24.dp, bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     text = stringResource(id = R.string.result_your_task_for_now),
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(24.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    ),
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        val colorArgb = state.selectedTaskColorArgb
+                        if (colorArgb != null) {
+                            Box(
+                                modifier = Modifier
+                                    .size(64.dp)
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(Color(colorArgb)),
+                            )
+                        }
+
+                        Text(
+                            text = state.selectedTaskTitle ?: stringResource(id = R.string.result_task_placeholder),
+                            style = MaterialTheme.typography.headlineSmall,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        )
+                    }
+                }
+
+                AnimatedVisibility(
+                    visible = !state.isMarkedDone,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                ) {
+                    GradientButton(
+                        onClick = viewModel::onMarkDoneClick,
+                        text = stringResource(id = R.string.result_mark_done),
+                        modifier = Modifier.height(56.dp),
+                    )
+                }
+
+                AnimatedVisibility(
+                    visible = state.isMarkedDone,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                ) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        ),
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.result_marked_done),
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            modifier = Modifier.padding(16.dp),
+                        )
+                    }
+                }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    val colorArgb = state.selectedTaskColorArgb
-                    if (colorArgb != null) {
-                        Box(
-                            modifier = Modifier
-                                .size(18.dp)
-                                .clip(MaterialTheme.shapes.small)
-                                .background(Color(colorArgb)),
-                        )
-                    }
-
-                    Text(
-                        text = state.selectedTaskTitle ?: stringResource(id = R.string.result_task_placeholder),
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                if (!state.isMarkedDone) {
-                    OutlinedButton(
-                        onClick = viewModel::onMarkDoneClick,
-                        modifier = Modifier.fillMaxWidth(),
+                    FilledTonalButton(
+                        onClick = onBackToHome,
+                        modifier = Modifier.weight(1f),
                     ) {
-                        Text(text = stringResource(id = R.string.result_mark_done))
+                        Text(text = stringResource(id = R.string.result_back_to_home))
                     }
-                } else {
-                    Text(
-                        text = stringResource(id = R.string.result_marked_done),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
+                    FilledTonalButton(
+                        onClick = onHistoryClick,
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Text(text = stringResource(id = R.string.home_history))
+                    }
                 }
-
-                OutlinedButton(onClick = onBackToHome) { Text(text = stringResource(id = R.string.result_back_to_home)) }
-                OutlinedButton(onClick = onHistoryClick) { Text(text = stringResource(id = R.string.home_history)) }
             }
 
             ConfettiOverlay(
