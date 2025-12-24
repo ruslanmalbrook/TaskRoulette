@@ -1,30 +1,95 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path android:pathData="M31,63.928c0,0 6.4,-11 12.1,-13.1c7.2,-2.6 26,-1.4 26,-1.4l38.1,38.1L107,108.928l-32,-1L31,63.928z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:endX="85.84757"
-                android:endY="92.4963"
-                android:startX="42.9492"
-                android:startY="49.59793"
-                android:type="linear">
-                <item
-                    android:color="#44000000"
-                    android:offset="0.0" />
-                <item
-                    android:color="#00000000"
-                    android:offset="1.0" />
-            </gradient>
-        </aapt:attr>
-    </path>
+    
+    <!-- Roulette Wheel Background Circle -->
     <path
         android:fillColor="#FFFFFF"
-        android:fillType="nonZero"
-        android:pathData="M65.3,45.828l3.8,-6.6c0.2,-0.4 0.1,-0.9 -0.3,-1.1c-0.4,-0.2 -0.9,-0.1 -1.1,0.3l-3.9,6.7c-6.3,-2.8 -13.4,-2.8 -19.7,0l-3.9,-6.7c-0.2,-0.4 -0.7,-0.5 -1.1,-0.3C38.8,38.328 38.7,38.828 38.9,39.228l3.8,6.6C36.2,49.428 31.7,56.028 31,63.928h46C76.3,56.028 71.8,49.428 65.3,45.828zM43.4,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2c-0.3,-0.7 -0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C45.3,56.528 44.5,57.328 43.4,57.328L43.4,57.328zM64.6,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2s-0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C66.5,56.528 65.6,57.328 64.6,57.328L64.6,57.328z"
-        android:strokeWidth="1"
-        android:strokeColor="#00000000" />
+        android:pathData="M54,54m-48,0a48,48 0,1 1,96 0a48,48 0,1 1,-96 0" />
+    
+    <!-- Sector 1 (Red) -->
+    <path
+        android:fillColor="#E53935"
+        android:pathData="M54,54 L54,6 A48,48 0 0,1 90,18 Z" />
+    
+    <!-- Sector 2 (Blue) -->
+    <path
+        android:fillColor="#1E88E5"
+        android:pathData="M54,54 L90,18 A48,48 0 0,1 102,54 Z" />
+    
+    <!-- Sector 3 (Green) -->
+    <path
+        android:fillColor="#43A047"
+        android:pathData="M54,54 L102,54 A48,48 0 0,1 90,90 Z" />
+    
+    <!-- Sector 4 (Orange) -->
+    <path
+        android:fillColor="#FB8C00"
+        android:pathData="M54,54 L90,90 A48,48 0 0,1 54,102 Z" />
+    
+    <!-- Sector 5 (Purple) -->
+    <path
+        android:fillColor="#8E24AA"
+        android:pathData="M54,54 L54,102 A48,48 0 0,1 18,90 Z" />
+    
+    <!-- Sector 6 (Teal) -->
+    <path
+        android:fillColor="#00897B"
+        android:pathData="M54,54 L18,90 A48,48 0 0,1 6,54 Z" />
+    
+    <!-- Sector 7 (Pink) -->
+    <path
+        android:fillColor="#E91E63"
+        android:pathData="M54,54 L6,54 A48,48 0 0,1 18,18 Z" />
+    
+    <!-- Sector 8 (Amber) -->
+    <path
+        android:fillColor="#FFB300"
+        android:pathData="M54,54 L18,18 A48,48 0 0,1 54,6 Z" />
+    
+    <!-- Center Circle (White) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,54m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0" />
+    
+    <!-- Pointer/Arrow pointing up -->
+    <path
+        android:fillColor="#212121"
+        android:pathData="M54,12 L50,20 L58,20 Z" />
+    
+    <!-- Divider lines between sectors -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M54,6 L54,54" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M90,18 L54,54" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M102,54 L54,54" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M90,90 L54,54" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M54,102 L54,54" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M18,90 L54,54" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M6,54 L54,54" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M18,18 L54,54" />
 </vector>
